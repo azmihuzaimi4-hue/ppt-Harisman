@@ -1,0 +1,1604 @@
+<!DOCTYPE html>
+<html lang="id" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الْحَفْلُ بِمَوْلِدِ الرَّسُولِ ﷺ — Modul Interaktif Kelas IX</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Arabic & Vintage Serif -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Reem+Kufi:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- Tone.js for Tactile Audio Feedback -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+
+    <style>
+        :root {
+            --parchment-bg: #d9c39e;
+            --parchment-light: #ece0c8;
+            --parchment-dark: #a68658;
+            --ink-primary: #26170c;
+            --ink-secondary: #4e341e;
+            --ink-accent: #7a2017;
+            --gold-accent: #8c6224;
+            --apple-ease: cubic-bezier(0.22, 1, 0.36, 1);
+            --apple-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #1c1108;
+            color: var(--ink-primary);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .font-arabic {
+            font-family: 'Amiri', serif;
+            line-height: 1.95;
+        }
+
+        .font-kufi {
+            font-family: 'Reem Kufi', sans-serif;
+        }
+
+        /* Authentic Vintage Parchment Background */
+        .parchment-canvas {
+            background: 
+                radial-gradient(circle at 50% 45%, rgba(242, 230, 206, 0.92) 0%, rgba(214, 189, 148, 0.95) 58%, rgba(161, 126, 80, 0.98) 92%, rgba(97, 67, 34, 1) 100%),
+                repeating-linear-gradient(45deg, rgba(60, 35, 15, 0.025) 0px, rgba(60, 35, 15, 0.025) 2px, transparent 2px, transparent 4px);
+            box-shadow: inset 0 0 110px rgba(43, 24, 8, 0.78), inset 0 0 35px rgba(43, 24, 8, 0.55);
+            position: relative;
+        }
+
+        /* Aged Stains & Vignette Effect */
+        .parchment-stains::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: 
+                radial-gradient(circle at 12% 18%, rgba(112, 76, 36, 0.22) 0%, transparent 28%),
+                radial-gradient(circle at 88% 82%, rgba(94, 59, 24, 0.28) 0%, transparent 34%),
+                radial-gradient(circle at 82% 12%, rgba(120, 82, 38, 0.18) 0%, transparent 25%),
+                radial-gradient(circle at 18% 88%, rgba(89, 55, 22, 0.24) 0%, transparent 30%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Apple Motion Transitions for Slides */
+        .slide-view {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.95) translateY(20px);
+            filter: blur(8px);
+            transition: 
+                opacity 0.65s var(--apple-ease),
+                transform 0.65s var(--apple-ease),
+                filter 0.65s var(--apple-ease);
+            z-index: 5;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 2.2rem 3rem 5.5rem 3rem;
+        }
+
+        .slide-view.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: scale(1) translateY(0);
+            filter: blur(0px);
+            z-index: 10;
+        }
+
+        .slide-view.prev-slide {
+            transform: scale(1.04) translateX(-40px);
+            opacity: 0;
+        }
+
+        /* Staggered Child Animations */
+        .slide-view.active .stagger-item {
+            animation: appleReveal 0.75s var(--apple-ease) forwards;
+            opacity: 0;
+        }
+
+        .slide-view.active .stagger-1 { animation-delay: 0.08s; }
+        .slide-view.active .stagger-2 { animation-delay: 0.16s; }
+        .slide-view.active .stagger-3 { animation-delay: 0.24s; }
+        .slide-view.active .stagger-4 { animation-delay: 0.32s; }
+        .slide-view.active .stagger-5 { animation-delay: 0.40s; }
+
+        @keyframes appleReveal {
+            0% {
+                opacity: 0;
+                transform: translateY(22px) scale(0.97);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Manuscript Cards */
+        .manuscript-card {
+            background: rgba(238, 225, 198, 0.62);
+            backdrop-filter: blur(8px);
+            border: 1.5px solid rgba(78, 52, 30, 0.35);
+            box-shadow: 
+                0 10px 30px -5px rgba(38, 23, 12, 0.14),
+                inset 0 1px 0 rgba(255, 250, 240, 0.6);
+            transition: all 0.4s var(--apple-spring);
+        }
+
+        .manuscript-card:hover {
+            transform: translateY(-4px) scale(1.01);
+            border-color: rgba(122, 32, 23, 0.55);
+            box-shadow: 
+                0 18px 36px -8px rgba(38, 23, 12, 0.22),
+                inset 0 1px 0 rgba(255, 250, 240, 0.8);
+        }
+
+        /* Interactive Clickable Arabic Word Token */
+        .arabic-token {
+            display: inline-block;
+            padding: 0.1rem 0.45rem;
+            margin: 0 0.12rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.35s var(--apple-spring);
+            border-bottom: 2px dashed rgba(122, 32, 23, 0.45);
+        }
+
+        .arabic-token:hover {
+            background: rgba(122, 32, 23, 0.15);
+            color: var(--ink-accent);
+            transform: translateY(-4px) scale(1.08);
+            border-bottom-style: solid;
+            border-bottom-color: var(--ink-accent);
+            box-shadow: 0 6px 14px rgba(122, 32, 23, 0.15);
+        }
+
+        .arabic-token.token-kaana {
+            background: rgba(122, 32, 23, 0.1);
+            border-bottom-color: #7a2017;
+        }
+        .arabic-token.token-isim {
+            background: rgba(23, 86, 56, 0.11);
+            border-bottom-color: #175638;
+        }
+        .arabic-token.token-khabar {
+            background: rgba(140, 98, 36, 0.15);
+            border-bottom-color: #8c6224;
+        }
+
+        /* Apple Glass Dock */
+        .apple-dock {
+            background: rgba(38, 23, 12, 0.84);
+            backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(217, 195, 158, 0.28);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
+            transition: all 0.4s var(--apple-spring);
+        }
+
+        /* Custom Scrollbar inside Slide Content */
+        .custom-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: rgba(78, 52, 30, 0.08);
+            border-radius: 8px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: rgba(78, 52, 30, 0.35);
+            border-radius: 8px;
+        }
+
+        /* Flip Card for 26 Mufradat */
+        .vocab-card-inner {
+            transition: transform 0.6s var(--apple-spring);
+            transform-style: preserve-3d;
+        }
+        .vocab-card.flipped .vocab-card-inner {
+            transform: rotateY(180deg);
+        }
+        .vocab-front, .vocab-back {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        .vocab-back {
+            transform: rotateY(180deg);
+        }
+
+        /* Ink Sketch Illustration Filter */
+        .ink-engraving {
+            stroke: #2c1a0e;
+            fill: none;
+            opacity: 0.82;
+        }
+
+        @media (max-width: 768px) {
+            .slide-view {
+                padding: 1.25rem 1.25rem 5.2rem 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body class="parchment-canvas parchment-stains select-none">
+
+    <!-- ORNAMENTAL ARABIC MANUSCRIPT FRAME (Top/Bottom/Corners) -->
+    <div class="fixed inset-3 md:inset-5 border-2 border-[#3b2313]/40 pointer-events-none z-20 rounded-sm">
+        <div class="absolute inset-1 border border-[#3b2313]/25"></div>
+        
+        <!-- Top-Left Corner Arabesque SVG -->
+        <svg class="absolute -top-1 -left-1 w-16 h-16 md:w-24 md:h-24 text-[#2c1a0e]" viewBox="0 0 100 100" fill="currentColor">
+            <path d="M0,0 L100,0 L100,6 L6,6 L6,100 L0,100 Z"/>
+            <path d="M12,12 C35,12 45,25 55,12 C45,35 30,45 12,55 C25,45 12,35 12,12 Z" fill="none" stroke="currentColor" stroke-width="2.5"/>
+            <circle cx="24" cy="24" r="4"/>
+            <path d="M12,70 Q28,55 42,70 T70,42" fill="none" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+        <!-- Top-Right Corner Arabesque SVG -->
+        <svg class="absolute -top-1 -right-1 w-16 h-16 md:w-24 md:h-24 text-[#2c1a0e] scale-x-[-1]" viewBox="0 0 100 100" fill="currentColor">
+            <path d="M0,0 L100,0 L100,6 L6,6 L6,100 L0,100 Z"/>
+            <path d="M12,12 C35,12 45,25 55,12 C45,35 30,45 12,55 C25,45 12,35 12,12 Z" fill="none" stroke="currentColor" stroke-width="2.5"/>
+            <circle cx="24" cy="24" r="4"/>
+            <path d="M12,70 Q28,55 42,70 T70,42" fill="none" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+        <!-- Bottom-Left Corner Arabesque SVG -->
+        <svg class="absolute -bottom-1 -left-1 w-16 h-16 md:w-24 md:h-24 text-[#2c1a0e] scale-y-[-1]" viewBox="0 0 100 100" fill="currentColor">
+            <path d="M0,0 L100,0 L100,6 L6,6 L6,100 L0,100 Z"/>
+            <path d="M12,12 C35,12 45,25 55,12 C45,35 30,45 12,55 C25,45 12,35 12,12 Z" fill="none" stroke="currentColor" stroke-width="2.5"/>
+            <circle cx="24" cy="24" r="4"/>
+            <path d="M12,70 Q28,55 42,70 T70,42" fill="none" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+        <!-- Bottom-Right Corner Arabesque SVG -->
+        <svg class="absolute -bottom-1 -right-1 w-16 h-16 md:w-24 md:h-24 text-[#2c1a0e] scale-[-1]" viewBox="0 0 100 100" fill="currentColor">
+            <path d="M0,0 L100,0 L100,6 L6,6 L6,100 L0,100 Z"/>
+            <path d="M12,12 C35,12 45,25 55,12 C45,35 30,45 12,55 C25,45 12,35 12,12 Z" fill="none" stroke="currentColor" stroke-width="2.5"/>
+            <circle cx="24" cy="24" r="4"/>
+            <path d="M12,70 Q28,55 42,70 T70,42" fill="none" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+    </div>
+
+    <!-- TOP STATUS HEADER BAR -->
+    <header class="fixed top-6 left-8 right-8 z-30 flex items-center justify-between px-4 py-1.5 border-b border-[#3b2313]/25 text-xs md:text-sm text-[#3b2313]">
+        <div class="flex items-center gap-3">
+            <span class="font-bold tracking-wider uppercase bg-[#26170c] text-[#ece0c8] px-2.5 py-0.5 rounded">Pertemuan 1</span>
+            <span class="hidden sm:inline font-medium">MTs Al-Hidayah Bojongnangka • Kelas IX (Fase D)</span>
+            <span class="hidden lg:inline text-[#7a2017] font-semibold">• Kurikulum Berbasis Cinta</span>
+        </div>
+        <div class="flex items-center gap-3">
+            <!-- 30 Minute Lesson Timer -->
+            <button onclick="toggleLessonTimer()" id="timerBtn" class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#3b2313]/10 hover:bg-[#3b2313]/20 border border-[#3b2313]/30 transition font-mono font-semibold" title="Klik untuk Mulai/Jeda Alokasi Waktu 1x30 Menit">
+                <span class="w-2 h-2 rounded-full bg-[#7a2017] animate-ping" id="timerDot"></span>
+                <span id="timerDisplay">30:00</span>
+            </button>
+            <button onclick="openModuleInfoModal()" class="px-3 py-1 rounded-full bg-[#7a2017] text-[#ece0c8] hover:bg-[#5a160f] transition font-medium shadow-sm">
+                Info Modul
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN SLIDES CONTAINER -->
+    <main id="slidesWrapper" class="relative w-full h-full pt-10">
+
+        <!-- ==========================================
+             SLIDE 1: SAMPUL & IDENTITAS MODUL AJAR
+             ========================================== -->
+        <section class="slide-view active" data-slide="0">
+            <div class="my-auto flex flex-col items-center text-center max-w-5xl mx-auto w-full overflow-y-auto custom-scroll py-2">
+                
+                <!-- Top Vintage Divider -->
+                <div class="stagger-item stagger-1 flex items-center gap-3 mb-2">
+                    <span class="h-[1.5px] w-16 md:w-28 bg-[#2c1a0e]"></span>
+                    <span class="text-xs uppercase tracking-[0.25em] font-bold text-[#7a2017]">Modul Ajar Bahasa Arab • Kurikulum Berbasis Cinta</span>
+                    <span class="h-[1.5px] w-16 md:w-28 bg-[#2c1a0e]"></span>
+                </div>
+
+                <!-- Main Ornamented Title Box (Matches Canva Reference Image) -->
+                <div class="stagger-item stagger-2 relative px-8 py-4 md:px-16 md:py-5 border-2 border-[#26170c] rounded-xl bg-[#e6d5b8]/60 shadow-inner my-2">
+                    <h1 class="font-kufi text-3xl sm:text-5xl md:text-6xl font-bold text-[#26170c] tracking-wide" dir="rtl">
+                        الْحَفْلُ بِمَوْلِدِ الرَّسُولِ ﷺ
+                    </h1>
+                    <p class="text-base md:text-xl font-semibold text-[#7a2017] mt-1 tracking-wide">
+                        "Perayaan Maulid Rasulullah ﷺ — Meneladani Akhlak dengan Cinta"
+                    </p>
+                </div>
+
+                <!-- Vintage Mosque Architectural Engraving Illustration -->
+                <div class="stagger-item stagger-3 w-full max-w-md my-2">
+                    <svg viewBox="0 0 500 190" class="w-full h-32 md:h-40 mx-auto ink-engraving">
+                        <!-- Horizon Base -->
+                        <line x1="30" y1="175" x2="470" y2="175" stroke-width="2.5"/>
+                        <line x1="60" y1="182" x2="440" y2="182" stroke-width="1.2"/>
+                        <!-- Left Minaret -->
+                        <rect x="85" y="45" width="14" height="130" stroke-width="1.5"/>
+                        <polygon points="85,45 92,20 99,45" stroke-width="1.5"/>
+                        <line x1="92" y1="20" x2="92" y2="10" stroke-width="1.5"/>
+                        <line x1="82" y1="75" x2="102" y2="75" stroke-width="2"/>
+                        <line x1="82" y1="115" x2="102" y2="115" stroke-width="2"/>
+                        <!-- Inner Left Minaret -->
+                        <rect x="135" y="65" width="12" height="110" stroke-width="1.4"/>
+                        <polygon points="135,65 141,42 147,65" stroke-width="1.4"/>
+                        <!-- Right Minaret -->
+                        <rect x="401" y="45" width="14" height="130" stroke-width="1.5"/>
+                        <polygon points="401,45 408,20 415,45" stroke-width="1.5"/>
+                        <line x1="408" y1="20" x2="408" y2="10" stroke-width="1.5"/>
+                        <line x1="398" y1="75" x2="418" y2="75" stroke-width="2"/>
+                        <line x1="398" y1="115" x2="418" y2="115" stroke-width="2"/>
+                        <!-- Inner Right Minaret -->
+                        <rect x="353" y="65" width="12" height="110" stroke-width="1.4"/>
+                        <polygon points="353,65 359,42 365,65" stroke-width="1.4"/>
+                        <!-- Central Grand Dome -->
+                        <path d="M180,120 C180,55 320,55 320,120" stroke-width="2"/>
+                        <path d="M195,120 C195,70 305,70 305,120" stroke-width="1" stroke-dasharray="3,3"/>
+                        <line x1="250" y1="72" x2="250" y2="48" stroke-width="1.8"/>
+                        <circle cx="250" cy="44" r="4" stroke-width="1.5"/>
+                        <!-- Main Building Structure & Arches -->
+                        <rect x="160" y="120" width="180" height="55" stroke-width="1.8"/>
+                        <!-- Side Domes -->
+                        <path d="M160,120 C160,98 185,98 185,120" stroke-width="1.5"/>
+                        <path d="M315,120 C315,98 340,98 340,120" stroke-width="1.5"/>
+                        <!-- Islamic Arches -->
+                        <path d="M232,175 L232,145 Q250,130 268,145 L268,175" stroke-width="1.8"/>
+                        <path d="M190,175 L190,152 Q202,142 214,152 L214,175" stroke-width="1.4"/>
+                        <path d="M286,175 L286,152 Q298,142 310,152 L310,175" stroke-width="1.4"/>
+                        <!-- Engraving Hatching Lines -->
+                        <line x1="165" y1="128" x2="335" y2="128" stroke-width="1"/>
+                        <line x1="165" y1="133" x2="335" y2="133" stroke-width="0.8"/>
+                    </svg>
+                </div>
+
+                <!-- Author & Institution Metadata Grid -->
+                <div class="stagger-item stagger-4 grid grid-cols-1 md:grid-cols-3 gap-3 w-full max-w-4xl text-left">
+                    <div class="manuscript-card p-3.5 rounded-xl">
+                        <div class="text-[11px] uppercase tracking-wider font-bold text-[#7a2017]">Penyusun Modul & Guru</div>
+                        <div class="font-bold text-sm md:text-base text-[#26170c] mt-0.5">Abdilah Adi Harisman</div>
+                        <div class="text-xs text-[#4e341e]">NIM: 21120201 • PAI Fakultas Tarbiyah</div>
+                        <div class="text-xs font-semibold text-[#26170c]">Universitas Islam KH Ruhiat Cipasung</div>
+                    </div>
+                    <div class="manuscript-card p-3.5 rounded-xl">
+                        <div class="text-[11px] uppercase tracking-wider font-bold text-[#7a2017]">Satuan Pendidikan</div>
+                        <div class="font-bold text-sm md:text-base text-[#26170c] mt-0.5">MTs Al-Hidayah Bojongnangka</div>
+                        <div class="text-xs text-[#4e341e]">Kelas IX / Fase D / Semester 1</div>
+                        <div class="text-xs font-semibold text-[#26170c]">Alokasi: 1 x 30 Menit (Pertemuan 1)</div>
+                    </div>
+                    <div class="manuscript-card p-3.5 rounded-xl">
+                        <div class="text-[11px] uppercase tracking-wider font-bold text-[#7a2017]">Supervisor & Pengesahan</div>
+                        <div class="text-xs text-[#26170c] mt-0.5"><span class="font-semibold">Guru Pamong:</span> Ilham Ahmad M, M.Pd.</div>
+                        <div class="text-xs text-[#26170c]"><span class="font-semibold">Dosen Pembimbing:</span> Cecep Muttaqin, M.Pd.</div>
+                        <div class="text-xs text-[#26170c]"><span class="font-semibold">Kepala Madrasah:</span> Titim Fatimah, M.Pd.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             SLIDE 2: KEGIATAN PENDAHULUAN & KURIKULUM BERBASIS CINTA
+             ========================================== -->
+        <section class="slide-view" data-slide="1">
+            <div class="my-auto max-w-6xl mx-auto w-full overflow-y-auto custom-scroll py-2">
+                <div class="stagger-item stagger-1 flex flex-col md:flex-row md:items-end justify-between border-b-2 border-[#26170c]/30 pb-2 mb-4">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-widest text-[#7a2017]">Tahap 01 • Kegiatan Pendahuluan</span>
+                        <h2 class="text-2xl md:text-3xl font-bold text-[#26170c]">المُقَدِّمَةُ — Pembukaan & Orientasi Cinta</h2>
+                    </div>
+                    <p class="font-arabic text-xl md:text-2xl text-[#7a2017] font-bold" dir="rtl">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+                    <!-- Left Column: Checklist Kesiapan Kelas Interaktif -->
+                    <div class="stagger-item stagger-2 lg:col-span-5 manuscript-card p-4 rounded-xl flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="font-bold text-base text-[#26170c]">📋 Daftar Kesiapan Kelas</h3>
+                                <span class="text-xs bg-[#26170c] text-[#ece0c8] px-2 py-0.5 rounded-full" id="prepCounter">0/5 Selesai</span>
+                            </div>
+                            <p class="text-xs text-[#4e341e] mb-3">Klik setiap tahapan pendahuluan yang telah dilaksanakan bersama murid di kelas:</p>
+                            
+                            <div class="space-y-2" id="prepChecklist">
+                                <label class="flex items-center gap-3 p-2.5 rounded-lg bg-[#ece0c8]/70 border border-[#3b2313]/20 cursor-pointer hover:bg-[#ece0c8] transition">
+                                    <input type="checkbox" onchange="updatePrepProgress()" class="w-4 h-4 accent-[#7a2017] rounded">
+                                    <span class="text-xs md:text-sm font-medium text-[#26170c]">1. Mengucapkan Salam & Berdoa Bersama (Ketua Kelas)</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-2.5 rounded-lg bg-[#ece0c8]/70 border border-[#3b2313]/20 cursor-pointer hover:bg-[#ece0c8] transition">
+                                    <input type="checkbox" onchange="updatePrepProgress()" class="w-4 h-4 accent-[#7a2017] rounded">
+                                    <span class="text-xs md:text-sm font-medium text-[#26170c]">2. Presensi Kehadiran, Kerapian Pakaian & Kebersihan</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-2.5 rounded-lg bg-[#ece0c8]/70 border border-[#3b2313]/20 cursor-pointer hover:bg-[#ece0c8] transition">
+                                    <input type="checkbox" onchange="updatePrepProgress()" class="w-4 h-4 accent-[#7a2017] rounded">
+                                    <span class="text-xs md:text-sm font-medium text-[#26170c]">3. Apersepsi & Pertanyaan Pemantik tentang Maulid</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-2.5 rounded-lg bg-[#ece0c8]/70 border border-[#3b2313]/20 cursor-pointer hover:bg-[#ece0c8] transition">
+                                    <input type="checkbox" onchange="updatePrepProgress()" class="w-4 h-4 accent-[#7a2017] rounded">
+                                    <span class="text-xs md:text-sm font-medium text-[#26170c]">4. Penyampaian Tujuan Pembelajaran & Teknik Penilaian</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-2.5 rounded-lg bg-[#ece0c8]/70 border border-[#3b2313]/20 cursor-pointer hover:bg-[#ece0c8] transition">
+                                    <input type="checkbox" onchange="updatePrepProgress()" class="w-4 h-4 accent-[#7a2017] rounded">
+                                    <span class="text-xs md:text-sm font-medium text-[#26170c]">5. Motivasi Cinta Rasulullah ﷺ (PPP & PPRA)</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="mt-3 p-2.5 rounded-lg bg-[#7a2017]/10 border border-[#7a2017]/30 text-center">
+                            <p class="font-arabic text-lg font-bold text-[#7a2017]" dir="rtl">اللَّهُمَّ صَلِّ وَسَلِّمْ وَبَارِكْ عَلَى سَيِّدِنَا مُحَمَّدٍ</p>
+                            <p class="text-[11px] text-[#4e341e]">Mari awali pelajaran Bahasa Arab dengan bershalawat penuh cinta.</p>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Profil Pelajar & Pertanyaan Pemantik -->
+                    <div class="stagger-item stagger-3 lg:col-span-7 flex flex-col gap-3">
+                        <!-- Nilai Kurikulum Berbasis Cinta (PPP & PRA) -->
+                        <div class="manuscript-card p-4 rounded-xl">
+                            <h3 class="font-bold text-base text-[#7a2017] mb-2">❤️ Integrasi Kurikulum Berbasis Cinta (PPP & PPRA)</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
+                                <div class="p-2.5 rounded-lg bg-[#ece0c8]/60 border border-[#3b2313]/20">
+                                    <div class="font-bold text-[#26170c] mb-1">🌟 Profil Pelajar Pancasila (PPP)</div>
+                                    <ul class="list-disc list-inside space-y-0.5 text-[#4e341e]">
+                                        <li>Bertakwa kepada Tuhan YME & berakhlak mulia</li>
+                                        <li>Bernalar kritis dan kreatif</li>
+                                        <li>Bergotong royong & berkebinekaan global</li>
+                                    </ul>
+                                </div>
+                                <div class="p-2.5 rounded-lg bg-[#ece0c8]/60 border border-[#3b2313]/20">
+                                    <div class="font-bold text-[#26170c] mb-1">🕌 Rahmatan lil ‘Alamin (PPRA)</div>
+                                    <ul class="list-disc list-inside space-y-0.5 text-[#4e341e]">
+                                        <li><span class="font-semibold">Ta’addub</span> (Berakhlak mulia & santun)</li>
+                                        <li><span class="font-semibold">Tawassuth</span> (Moderat) & <span class="font-semibold">Tasamuh</span> (Toleran)</li>
+                                        <li><span class="font-semibold">Tathawwur wa Ibtikar</span> (Dinamis & inovatif)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pertanyaan Pemantik Interaktif -->
+                        <div class="manuscript-card p-4 rounded-xl">
+                            <h3 class="font-bold text-base text-[#26170c] mb-2">💡 Pertanyaan Pemantik Diskusi Awal</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div class="p-3 rounded-lg bg-[#26170c] text-[#ece0c8]">
+                                    <span class="text-[10px] uppercase tracking-wider text-[#d9c39e]">Pemantik 01</span>
+                                    <p class="text-xs md:text-sm font-medium mt-1">"Bagaimana kalian biasa memperingati Maulid Nabi Muhammad ﷺ di rumah atau lingkungan kalian?"</p>
+                                </div>
+                                <div class="p-3 rounded-lg bg-[#7a2017] text-[#ece0c8]">
+                                    <span class="text-[10px] uppercase tracking-wider text-[#ece0c8]/80">Pemantik 02</span>
+                                    <p class="text-xs md:text-sm font-medium mt-1">"Apa saja yang kalian lihat dan lakukan saat peringatan Maulid? Tahukah kalian bahasa Arabnya?"</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             SLIDE 3: CAPAIAN & TUJUAN PEMBELAJARAN (PERTEMUAN 1)
+             ========================================== -->
+        <section class="slide-view" data-slide="2">
+            <div class="my-auto max-w-6xl mx-auto w-full overflow-y-auto custom-scroll py-2">
+                <div class="stagger-item stagger-1 flex flex-col md:flex-row md:items-end justify-between border-b-2 border-[#26170c]/30 pb-2 mb-4">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-widest text-[#7a2017]">Tahap 02 • Orientasi Kompetensi</span>
+                        <h2 class="text-2xl md:text-3xl font-bold text-[#26170c]">أَهْدَافُ التَّعَلُّمِ — Capaian & Tujuan Pembelajaran</h2>
+                    </div>
+                    <span class="text-xs font-semibold bg-[#3b2313]/15 px-3 py-1 rounded-full">Model: Discovery Learning & Gallery Walk</span>
+                </div>
+
+                <!-- 3 Fokus Tujuan Pertemuan 1 -->
+                <div class="stagger-item stagger-2 grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
+                    <div class="manuscript-card p-4 rounded-xl border-l-4 border-l-[#7a2017]">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold uppercase text-[#7a2017]">Tujuan 01 • Pelafalan</span>
+                            <span class="text-lg font-bold font-arabic">النُّطْقُ</span>
+                        </div>
+                        <h4 class="font-bold text-sm md:text-base mt-1 text-[#26170c]">Melafalkan 26 Kosakata</h4>
+                        <p class="text-xs text-[#4e341e] mt-1">Melafalkan 26 mufradat bertema الْحَفْلُ بِمَوْلِدِ الرَّسُولِ ﷺ dengan *makharijul huruf* yang baik dan benar.</p>
+                    </div>
+                    <div class="manuscript-card p-4 rounded-xl border-l-4 border-l-[#175638]">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold uppercase text-[#175638]">Tujuan 02 • Pemaknaan</span>
+                            <span class="text-lg font-bold font-arabic">المَعْنَى</span>
+                        </div>
+                        <h4 class="font-bold text-sm md:text-base mt-1 text-[#26170c]">Menjelaskan Makna & Struktur</h4>
+                        <p class="text-xs text-[#4e341e] mt-1">Menjelaskan arti kosakata dalam Bahasa Indonesia dengan tepat serta memahami pola *Kaana wa Akhawatuha*.</p>
+                    </div>
+                    <div class="manuscript-card p-4 rounded-xl border-l-4 border-l-[#8c6224]">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold uppercase text-[#8c6224]">Tujuan 03 • Penerapan</span>
+                            <span class="text-lg font-bold font-arabic">التَّطْبِيقُ</span>
+                        </div>
+                        <h4 class="font-bold text-sm md:text-base mt-1 text-[#26170c]">Menyusun Kalimat Sederhana</h4>
+                        <p class="text-xs text-[#4e341e] mt-1">Menggunakan kosakata dalam kalimat naratif sederhana secara lisan maupun tulisan dengan penuh kecintaan.</p>
+                    </div>
+                </div>
+
+                <!-- 4 Elemen Capaian Pembelajaran (CP Fase D) -->
+                <div class="stagger-item stagger-3 manuscript-card p-4 rounded-xl">
+                    <h3 class="font-bold text-sm md:text-base text-[#26170c] mb-2.5">🧭 Peta 4 Elemen Capaian Pembelajaran (Fase D)</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 text-xs">
+                        <div class="p-3 rounded-lg bg-[#ece0c8]/80 border border-[#3b2313]/20">
+                            <div class="font-bold text-[#7a2017] flex justify-between">
+                                <span>1. Menyimak (Istima’)</span>
+                                <span class="font-arabic">الِاسْتِمَاعُ</span>
+                            </div>
+                            <p class="text-[#4e341e] mt-1">Mengeksplorasi informasi tersurat & tersirat dari teks lisan tentang Maulid Nabi ﷺ dengan kaidah كَانَ وَأَخَوَاتُهَا.</p>
+                        </div>
+                        <div class="p-3 rounded-lg bg-[#ece0c8]/80 border border-[#3b2313]/20">
+                            <div class="font-bold text-[#175638] flex justify-between">
+                                <span>2. Berbicara (Kalam)</span>
+                                <span class="font-arabic">الكَلَامُ</span>
+                            </div>
+                            <p class="text-[#4e341e] mt-1">Membangun interaksi, merespons pertanyaan, dan menceritakan kembali rangkaian peringatan Maulid secara lisan.</p>
+                        </div>
+                        <div class="p-3 rounded-lg bg-[#ece0c8]/80 border border-[#3b2313]/20">
+                            <div class="font-bold text-[#8c6224] flex justify-between">
+                                <span>3. Membaca (Qira’ah)</span>
+                                <span class="font-arabic">القِرَاءَةُ</span>
+                            </div>
+                            <p class="text-[#4e341e] mt-1">Membaca, menganalisis struktur teks naratif (orientasi, peristiwa, penutup) yang memuat كَانَ وَاسْمُهَا وَخَبَرُهَا.</p>
+                        </div>
+                        <div class="p-3 rounded-lg bg-[#ece0c8]/80 border border-[#3b2313]/20">
+                            <div class="font-bold text-[#26170c] flex justify-between">
+                                <span>4. Menulis (Kitabah)</span>
+                                <span class="font-arabic">الكِتَابَةُ</span>
+                            </div>
+                            <p class="text-[#4e341e] mt-1">Menyusun paragraf naratif sederhana yang padu tentang Maulid Nabi ﷺ dan mempresentasikannya.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             SLIDE 4: STIMULASI & 5 POS GALLERY WALK (26 MUFRADAT)
+             ========================================== -->
+        <section class="slide-view" data-slide="3">
+            <div class="my-auto max-w-6xl mx-auto w-full overflow-y-auto custom-scroll py-2">
+                <div class="stagger-item stagger-1 flex flex-col sm:flex-row sm:items-center justify-between border-b-2 border-[#26170c]/30 pb-2 mb-3 gap-2">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-widest text-[#7a2017]">Kegiatan Inti 1-3 • Stimulasi & Gallery Walk (Karya Kunjung)</span>
+                        <h2 class="text-xl md:text-2xl font-bold text-[#26170c]">المُفْرَدَاتُ الـ ٢٦ — Eksplorasi 26 Kosakata di 5 Pos</h2>
+                    </div>
+                    <span class="text-xs bg-[#7a2017]/15 text-[#7a2017] border border-[#7a2017]/30 px-3 py-1 rounded-full font-semibold">
+                        🔊 Klik kartu untuk membalik & melihat analisis Shorof/Makhraj!
+                    </span>
+                </div>
+
+                <!-- 5 Pos Filter Tabs (Discovery Learning - Gallery Walk) -->
+                <div class="stagger-item stagger-2 flex flex-wrap gap-1.5 mb-3" id="posFilterTabs">
+                    <button onclick="filterVocabPos('all')" class="pos-tab active-tab px-3 py-1.5 rounded-lg text-xs font-bold bg-[#26170c] text-[#ece0c8] transition">Semua (26 Kata)</button>
+                    <button onclick="filterVocabPos('pos1')" class="pos-tab px-3 py-1.5 rounded-lg text-xs font-bold bg-[#ece0c8]/70 text-[#26170c] hover:bg-[#ece0c8] transition">📍 Pos 1: Waktu & Tempat (6)</button>
+                    <button onclick="filterVocabPos('pos2')" class="pos-tab px-3 py-1.5 rounded-lg text-xs font-bold bg-[#ece0c8]/70 text-[#26170c] hover:bg-[#ece0c8] transition">👥 Pos 2: Tokoh (5)</button>
+                    <button onclick="filterVocabPos('pos3')" class="pos-tab px-3 py-1.5 rounded-lg text-xs font-bold bg-[#ece0c8]/70 text-[#26170c] hover:bg-[#ece0c8] transition">🎙️ Pos 3: Kegiatan (6)</button>
+                    <button onclick="filterVocabPos('pos4')" class="pos-tab px-3 py-1.5 rounded-lg text-xs font-bold bg-[#ece0c8]/70 text-[#26170c] hover:bg-[#ece0c8] transition">✨ Pos 4: Sifat & Keadaan (5)</button>
+                    <button onclick="filterVocabPos('pos5')" class="pos-tab px-3 py-1.5 rounded-lg text-xs font-bold bg-[#ece0c8]/70 text-[#26170c] hover:bg-[#ece0c8] transition">💖 Pos 5: Nilai & Teladan (4)</button>
+                </div>
+
+                <!-- Grid of 26 Interactive Vocabulary Cards -->
+                <div id="vocabGrid" class="stagger-item stagger-3 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2.5 max-h-[54vh] overflow-y-auto custom-scroll pr-1 pb-2">
+                    <!-- Rendered dynamically via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             SLIDE 5: LABORATORIUM NAHWU (KAANA WA AKHAWATUHA)
+             ========================================== -->
+        <section class="slide-view" data-slide="4">
+            <div class="my-auto max-w-6xl mx-auto w-full overflow-y-auto custom-scroll py-2">
+                <div class="stagger-item stagger-1 flex flex-col sm:flex-row sm:items-end justify-between border-b-2 border-[#26170c]/30 pb-2 mb-3">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-widest text-[#7a2017]">Unsur Kebahasaan 01 • Kaidah Nahwu Interaktif</span>
+                        <h2 class="text-2xl md:text-3xl font-bold text-[#26170c]">كَانَ وَأَخَوَاتُهَا — Isim Marfu’ & Khabar Manshub</h2>
+                    </div>
+                    <div class="flex gap-2 text-xs font-semibold mt-1 sm:mt-0">
+                        <span class="px-2 py-0.5 rounded bg-[#7a2017]/15 text-[#7a2017] border border-[#7a2017]/30">Fi'il Naqish (كَانَ)</span>
+                        <span class="px-2 py-0.5 rounded bg-[#175638]/15 text-[#175638] border border-[#175638]/30">Isim Kaana (مَرْفُوعٌ)</span>
+                        <span class="px-2 py-0.5 rounded bg-[#8c6224]/20 text-[#5e4014] border border-[#8c6224]/40">Khabar Kaana (مَنْصُوبٌ)</span>
+                    </div>
+                </div>
+
+                <!-- Rumus Inti Kaana -->
+                <div class="stagger-item stagger-2 manuscript-card p-3.5 rounded-xl mb-3 flex flex-col md:flex-row items-center justify-between gap-3">
+                    <div class="text-xs md:text-sm text-[#26170c]">
+                        <span class="font-bold text-[#7a2017]">Fungsi Gramatikal (العَمَلُ النَّحْوِيُّ):</span> 
+                        Ketika <span class="font-bold">كَانَ</span> atau saudaranya masuk ke dalam *Jumlah Ismiyyah* (Mubtada' + Khabar), maka ia **me-rafa'-kan Mubtada'** sebagai *Isim-nya* dan **me-nashab-kan Khabar** sebagai *Khabar-nya*.
+                    </div>
+                    <div class="font-arabic text-lg md:text-xl font-bold bg-[#26170c] text-[#ece0c8] px-4 py-1.5 rounded-lg shrink-0" dir="rtl">
+                        تَرْفَعُ الِاسْمَ وَتَنْصِبُ الْخَبَرَ
+                    </div>
+                </div>
+
+                <!-- Interactive Sentence Transformation Simulator -->
+                <div class="stagger-item stagger-3 grid grid-cols-1 lg:grid-cols-2 gap-3">
+                    <!-- Kalimat 1 -->
+                    <div class="manuscript-card p-4 rounded-xl">
+                        <div class="flex justify-between items-center text-xs text-[#4e341e] mb-1">
+                            <span class="font-bold uppercase text-[#7a2017]">Contoh Kalimat 01 (Klik setiap kata!)</span>
+                            <span>asal: الْحَفْلُ كَبِيرٌ</span>
+                        </div>
+                        <div class="font-arabic text-2xl md:text-3xl text-center py-3 bg-[#ece0c8]/70 rounded-lg border border-[#3b2313]/20" dir="rtl">
+                            <span class="arabic-token token-kaana" onclick="showWordPopup('kaana_1')">كَانَ</span>
+                            <span class="arabic-token token-isim" onclick="showWordPopup('alhaflu_1')">الْحَفْلُ</span>
+                            <span class="arabic-token token-khabar" onclick="showWordPopup('kabiiran_1')">كَبِيرًا</span>
+                            <span class="arabic-token" onclick="showWordPopup('fi_1')">فِي</span>
+                            <span class="arabic-token" onclick="showWordPopup('alqaaati_1')">الْقَاعَةِ</span>
+                        </div>
+                        <p class="text-xs text-center text-[#4e341e] mt-2 italic">"Perayaan (Maulid) itu berlangsung meriah/besar di aula."</p>
+                    </div>
+
+                    <!-- Kalimat 2 -->
+                    <div class="manuscript-card p-4 rounded-xl">
+                        <div class="flex justify-between items-center text-xs text-[#4e341e] mb-1">
+                            <span class="font-bold uppercase text-[#7a2017]">Contoh Kalimat 02 (Muannats • كَانَتْ)</span>
+                            <span>asal: السِّيرَةُ مُؤَثِّرَةٌ</span>
+                        </div>
+                        <div class="font-arabic text-2xl md:text-3xl text-center py-3 bg-[#ece0c8]/70 rounded-lg border border-[#3b2313]/20" dir="rtl">
+                            <span class="arabic-token token-kaana" onclick="showWordPopup('kaanat_2')">كَانَتْ</span>
+                            <span class="arabic-token token-isim" onclick="showWordPopup('assiiratu_2')">السِّيرَةُ</span>
+                            <span class="arabic-token" onclick="showWordPopup('annabawiyyatu_2')">النَّبَوِيَّةُ</span>
+                            <span class="arabic-token token-khabar" onclick="showWordPopup('muatshiratan_2')">مُؤَثِّرَةً</span>
+                        </div>
+                        <p class="text-xs text-center text-[#4e341e] mt-2 italic">"Kisah perjalanan hidup Nabi ﷺ itu sangat menyentuh hati."</p>
+                    </div>
+
+                    <!-- Kalimat 3 -->
+                    <div class="manuscript-card p-4 rounded-xl">
+                        <div class="flex justify-between items-center text-xs text-[#4e341e] mb-1">
+                            <span class="font-bold uppercase text-[#7a2017]">Contoh Kalimat 03 (Saudara Kaana • أَصْبَحَ)</span>
+                            <span>asal: الْحَاضِرُونَ مَسْرُورُونَ</span>
+                        </div>
+                        <div class="font-arabic text-2xl md:text-3xl text-center py-3 bg-[#ece0c8]/70 rounded-lg border border-[#3b2313]/20" dir="rtl">
+                            <span class="arabic-token token-kaana" onclick="showWordPopup('asbaha_3')">أَصْبَحَ</span>
+                            <span class="arabic-token token-isim" onclick="showWordPopup('alhaadiruuna_3')">الْحَاضِرُونَ</span>
+                            <span class="arabic-token token-khabar" onclick="showWordPopup('masruuriina_3')">مَسْرُورِينَ</span>
+                        </div>
+                        <p class="text-xs text-center text-[#4e341e] mt-2 italic">"Para hadirin menjadi sangat gembira (Jamak Mudzakkar Salim)."</p>
+                    </div>
+
+                    <!-- Kalimat 4 -->
+                    <div class="manuscript-card p-4 rounded-xl">
+                        <div class="flex justify-between items-center text-xs text-[#4e341e] mb-1">
+                            <span class="font-bold uppercase text-[#7a2017]">Contoh Kalimat 04 (Keteladanan • صَارَ)</span>
+                            <span>asal: مُحَمَّدٌ ﷺ قُدْوَةٌ</span>
+                        </div>
+                        <div class="font-arabic text-2xl md:text-3xl text-center py-3 bg-[#ece0c8]/70 rounded-lg border border-[#3b2313]/20" dir="rtl">
+                            <span class="arabic-token token-kaana" onclick="showWordPopup('shaara_4')">صَارَ</span>
+                            <span class="arabic-token token-isim" onclick="showWordPopup('arrasulu_4')">الرَّسُولُ ﷺ</span>
+                            <span class="arabic-token token-khabar" onclick="showWordPopup('qudwatan_4')">قُدْوَةً</span>
+                            <span class="arabic-token" onclick="showWordPopup('lanaa_4')">لَنَا</span>
+                        </div>
+                        <p class="text-xs text-center text-[#4e341e] mt-2 italic">"Rasulullah ﷺ menjadi suri teladan bagi kita semua."</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             SLIDE 6: LABORATORIUM SHOROF & EKSPLORASI TEKS NARATIF (KLIK PER KATA)
+             ========================================== -->
+        <section class="slide-view" data-slide="5">
+            <div class="my-auto max-w-6xl mx-auto w-full overflow-y-auto custom-scroll py-2">
+                <div class="stagger-item stagger-1 flex flex-col sm:flex-row sm:items-end justify-between border-b-2 border-[#26170c]/30 pb-2 mb-3">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-widest text-[#7a2017]">Unsur Kebahasaan 02 • Analisis Shorof & Qira’ah Interaktif</span>
+                        <h2 class="text-xl md:text-2xl font-bold text-[#26170c]">الصَّرْفُ وَالنَّصُّ التَّفَاعُلِيُّ — Klik Setiap Kata pada Teks!</h2>
+                    </div>
+                    <span class="text-xs font-bold bg-[#26170c] text-[#ece0c8] px-3 py-1 rounded-full">👆 Klik Kata Arab untuk Pop-up I'rab Nahwu & Tasrif Shorof</span>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-3.5">
+                    <!-- Interactive Arabic Narrative Text (Every Word Clickable) -->
+                    <div class="stagger-item stagger-2 lg:col-span-7 manuscript-card p-4 rounded-xl flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-xs font-bold uppercase text-[#7a2017]">📜 Teks Naratif Maulid Nabi ﷺ (Klik Kata)</span>
+                                <span class="text-[11px] text-[#4e341e]">Orientasi • Peristiwa • Refleksi</span>
+                            </div>
+
+                            <div class="font-arabic text-2xl md:text-3xl leading-loose text-right p-3.5 rounded-xl bg-[#ece0c8]/80 border border-[#3b2313]/25" dir="rtl">
+                                <span class="arabic-token" onclick="showWordPopup('txt_1')">إِحْتَفَلَ</span>
+                                <span class="arabic-token" onclick="showWordPopup('txt_2')">الْمُسْلِمُونَ</span>
+                                <span class="arabic-token" onclick="showWordPopup('txt_3')">بِذِكْرَى</span>
+                                <span class="arabic-token" onclick="showWordPopup('txt_4')">مَوْلِدِ</span>
+                                <span class="arabic-token" onclick="showWordPopup('txt_5')">الرَّسُولِ ﷺ</span>
+                                <span class="arabic-token" onclick="showWordPopup('txt_6')">فِي</span>
+                                <span class="arabic-token" onclick="showWordPopup('txt_7')">شَهْرِ</span>
+                                <span class="arabic-token" onclick="showWordPopup('txt_8')">رَبِيعِ الْأَوَّلِ.</span>
+                                <span class="arabic-token token-kaana" onclick="showWordPopup('txt_9')">كَانَ</span>
+                                <span class="arabic-token token-isim" onclick="showWordPopup('txt_10')">الْحَفْلُ</span>
+                                <span class="arabic-token token-khabar" onclick="showWordPopup('txt_11')">مُنَظَّمًا</span>
+                                <span class="arabic-token" onclick="showWordPopup('txt_12')">فِي</span>
+                                <span class="arabic-token" onclick="showWordPopup('txt_13')">قَاعَةِ</span>
+                                <span class="arabic-token" onclick="showWordPopup('txt_14')">الْمَدْرَسَةِ.</span>
+                                <span class="arabic-token" onclick="showWordPopup('txt_15')">أَلْقَى</span>
+                                <span class="arabic-token" onclick="showWordPopup('txt_16')">الدَّاعِي</span>
+                                <span class="arabic-token" onclick="showWordPopup('txt_17')">الْمُحَاضَرَةَ</span>
+                                <span class="arabic-token" onclick="showWordPopup('txt_18')">الدِّينِيَّةَ،</span>
+                                <span class="arabic-token token-kaana" onclick="showWordPopup('txt_19')">وَكَانَتْ</span>
+                                <span class="arabic-token token-isim" onclick="showWordPopup('txt_20')">أَخْلَاقُ</span>
+                                <span class="arabic-token" onclick="showWordPopup('txt_21')">النَّبِيِّ ﷺ</span>
+                                <span class="arabic-token token-khabar" onclick="showWordPopup('txt_22')">عَظِيمَةً.</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-3 p-2.5 rounded-lg bg-[#3b2313]/10 text-xs text-[#26170c]">
+                            <span class="font-bold">Terjemahan Kontekstual:</span> "Umat Islam merayakan peringatan kelahiran Rasulullah ﷺ pada bulan Rabi'ul Awwal. Acara perayaan itu terselenggara dengan rapi di aula madrasah. Sang penceramah menyampaikan tausiyah agama, dan sungguh akhlak Nabi ﷺ itu sangat agung."
+                        </div>
+                    </div>
+
+                    <!-- Shorof Morphology Table (Klik Setiap Kata juga) -->
+                    <div class="stagger-item stagger-3 lg:col-span-5 manuscript-card p-4 rounded-xl">
+                        <h3 class="font-bold text-sm md:text-base text-[#7a2017] mb-1">⚖️ Tabel Tasrif Istilahi (Ilmu Shorof)</h3>
+                        <p class="text-xs text-[#4e341e] mb-2.5">Klik kata pada tabel untuk melihat wazan, akar huruf (*maddah*), dan sighat-nya:</p>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-right font-arabic text-base md:text-lg border-collapse" dir="rtl">
+                                <thead>
+                                    <tr class="bg-[#26170c] text-[#ece0c8] text-xs font-sans">
+                                        <th class="p-1.5 border border-[#3b2313]/30">فعل ماض</th>
+                                        <th class="p-1.5 border border-[#3b2313]/30">فعل مضارع</th>
+                                        <th class="p-1.5 border border-[#3b2313]/30">مصدر</th>
+                                        <th class="p-1.5 border border-[#3b2313]/30">اسم فاعل/مفعول</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-[#ece0c8]/60">
+                                    <tr>
+                                        <td class="p-1.5 border border-[#3b2313]/20"><span class="arabic-token" onclick="showWordPopup('shorof_1a')">إِحْتَفَلَ</span></td>
+                                        <td class="p-1.5 border border-[#3b2313]/20"><span class="arabic-token" onclick="showWordPopup('shorof_1b')">يَحْتَفِلُ</span></td>
+                                        <td class="p-1.5 border border-[#3b2313]/20"><span class="arabic-token" onclick="showWordPopup('shorof_1c')">إِحْتِفَالًا</span></td>
+                                        <td class="p-1.5 border border-[#3b2313]/20"><span class="arabic-token" onclick="showWordPopup('shorof_1d')">مُحْتَفِلٌ</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-1.5 border border-[#3b2313]/20"><span class="arabic-token" onclick="showWordPopup('shorof_2a')">وَلَدَ</span></td>
+                                        <td class="p-1.5 border border-[#3b2313]/20"><span class="arabic-token" onclick="showWordPopup('shorof_2b')">يَلِدُ</span></td>
+                                        <td class="p-1.5 border border-[#3b2313]/20"><span class="arabic-token" onclick="showWordPopup('shorof_2c')">مَوْلِدًا</span></td>
+                                        <td class="p-1.5 border border-[#3b2313]/20"><span class="arabic-token" onclick="showWordPopup('shorof_2d')">مَوْلُودٌ</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-1.5 border border-[#3b2313]/20"><span class="arabic-token" onclick="showWordPopup('shorof_3a')">حَاضَرَ</span></td>
+                                        <td class="p-1.5 border border-[#3b2313]/20"><span class="arabic-token" onclick="showWordPopup('shorof_3b')">يُحَاضِرُ</span></td>
+                                        <td class="p-1.5 border border-[#3b2313]/20"><span class="arabic-token" onclick="showWordPopup('shorof_3c')">مُحَاضَرَةً</span></td>
+                                        <td class="p-1.5 border border-[#3b2313]/20"><span class="arabic-token" onclick="showWordPopup('shorof_3d')">مُحَاضِرٌ</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-1.5 border border-[#3b2313]/20"><span class="arabic-token" onclick="showWordPopup('shorof_4a')">كَانَ</span></td>
+                                        <td class="p-1.5 border border-[#3b2313]/20"><span class="arabic-token" onclick="showWordPopup('shorof_4b')">يَكُونُ</span></td>
+                                        <td class="p-1.5 border border-[#3b2313]/20"><span class="arabic-token" onclick="showWordPopup('shorof_4c')">كَوْنًا</span></td>
+                                        <td class="p-1.5 border border-[#3b2313]/20"><span class="arabic-token" onclick="showWordPopup('shorof_4d')">كَائِنٌ</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             SLIDE 7: LKPD 1 & KUIS INTERAKTIF (PENGOLAHAN DATA & VERIFIKASI)
+             ========================================== -->
+        <section class="slide-view" data-slide="6">
+            <div class="my-auto max-w-6xl mx-auto w-full overflow-y-auto custom-scroll py-2">
+                <div class="stagger-item stagger-1 flex flex-col sm:flex-row sm:items-end justify-between border-b-2 border-[#26170c]/30 pb-2 mb-3">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-widest text-[#7a2017]">Kegiatan Inti 4-5 • Pengolahan Data (LKPD 1) & Pembuktian</span>
+                        <h2 class="text-2xl md:text-3xl font-bold text-[#26170c]">التَّدْرِيبَاتُ وَالِاخْتِبَارُ — Asesmen Interaktif</h2>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-bold bg-[#175638] text-[#ece0c8] px-3 py-1 rounded-full" id="quizScoreBadge">Skor Kuis: 0 / 500</span>
+                        <button onclick="resetQuiz()" class="text-xs px-2.5 py-1 rounded-full bg-[#3b2313]/15 hover:bg-[#3b2313]/30 font-semibold transition">Ulangi Kuis</button>
+                    </div>
+                </div>
+
+                <!-- Interactive Quiz Container -->
+                <div class="stagger-item stagger-2 grid grid-cols-1 lg:grid-cols-12 gap-4">
+                    <!-- Question Box -->
+                    <div class="lg:col-span-8 manuscript-card p-5 rounded-xl flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between text-xs font-bold text-[#7a2017] mb-2">
+                                <span id="quizNumberLabel">SOAL 1 DARI 5 • LKPD & SUMATIF</span>
+                                <span id="quizCategoryLabel">Kaidah Nahwu: Kaana wa Akhawatuha</span>
+                            </div>
+
+                            <h3 id="quizQuestionText" class="text-base md:text-lg font-bold text-[#26170c] mb-2">
+                                Memuat pertanyaan...
+                            </h3>
+
+                            <div id="quizArabicPrompt" class="font-arabic text-2xl md:text-3xl text-center py-3 px-4 my-2 rounded-xl bg-[#ece0c8]/90 border border-[#3b2313]/25 text-[#26170c]" dir="rtl">
+                                ...
+                            </div>
+
+                            <!-- 4 Options Grid -->
+                            <div id="quizOptionsGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mt-3">
+                                <!-- Rendered by JS -->
+                            </div>
+                        </div>
+
+                        <!-- Feedback Banner -->
+                        <div id="quizFeedbackBox" class="hidden mt-3 p-3 rounded-lg text-xs font-medium border"></div>
+                    </div>
+
+                    <!-- Right Side: Progress & Mini Word Matching -->
+                    <div class="lg:col-span-4 manuscript-card p-4 rounded-xl flex flex-col justify-between">
+                        <div>
+                            <h4 class="font-bold text-sm text-[#26170c] mb-2">📊 Navigasi Soal LKPD 1</h4>
+                            <div class="grid grid-cols-5 gap-2 mb-4" id="quizStepDots">
+                                <!-- Step buttons -->
+                            </div>
+
+                            <div class="p-3 rounded-lg bg-[#ece0c8]/70 border border-[#3b2313]/20 text-xs space-y-1.5">
+                                <div class="font-bold text-[#7a2017]">🎯 Fokus Penilaian Modul:</div>
+                                <p class="text-[#4e341e]">1. Ketepatan menjodohkan kosakata Maulid Nabi ﷺ.</p>
+                                <p class="text-[#4e341e]">2. Ketepatan menentukan harakat *Isim Kaana* (Dhammah/Marfu') dan *Khabar Kaana* (Fathah/Manshub).</p>
+                                <p class="text-[#4e341e]">3. Kemampuan mengenali bentuk *Masdar* dan *Isim Zaman/Makan*.</p>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 flex justify-between gap-2">
+                            <button onclick="prevQuizQuestion()" class="w-1/2 py-2 rounded-lg bg-[#3b2313]/15 hover:bg-[#3b2313]/25 text-xs font-bold transition">← Soal Sebelumnya</button>
+                            <button onclick="nextQuizQuestion()" class="w-1/2 py-2 rounded-lg bg-[#26170c] text-[#ece0c8] hover:bg-[#3b2313] text-xs font-bold transition">Soal Berikutnya →</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             SLIDE 8: GENERALISASI, REFLEKSI & PENUTUP
+             ========================================== -->
+        <section class="slide-view" data-slide="7">
+            <div class="my-auto max-w-6xl mx-auto w-full overflow-y-auto custom-scroll py-2">
+                <div class="stagger-item stagger-1 flex flex-col sm:flex-row sm:items-end justify-between border-b-2 border-[#26170c]/30 pb-2 mb-3">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-widest text-[#7a2017]">Kegiatan Inti 6 & Penutup • Generalisasi & Refleksi</span>
+                        <h2 class="text-2xl md:text-3xl font-bold text-[#26170c]">الخَاتِمَةُ وَالتَّأَمُّلُ — Simpulan & Refleksi Pembelajaran</h2>
+                    </div>
+                    <span class="font-arabic text-xl font-bold text-[#7a2017]" dir="rtl">الْحَمْدُ لِلّٰهِ رَبِّ الْعَالَمِينَ</span>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-3.5">
+                    <!-- Generalisasi: 3 Kata Favorit Murid -->
+                    <div class="stagger-item stagger-2 lg:col-span-5 manuscript-card p-4 rounded-xl">
+                        <h3 class="font-bold text-sm md:text-base text-[#26170c] mb-1">✍️ Generalisasi: 3 Kosakata Favoritku</h3>
+                        <p class="text-xs text-[#4e341e] mb-2.5">Sesuai tahapan Generalisasi pada modul, tuliskan 3 kosakata favorit beserta kalimat sederhananya:</p>
+                        
+                        <div class="space-y-2">
+                            <input type="text" placeholder="1. Contoh: الْمَوْلِدُ النَّبَوِيُّ (Maulid Nabi)" class="w-full px-3 py-1.5 rounded-lg bg-[#ece0c8]/90 border border-[#3b2313]/30 text-xs focus:outline-none focus:border-[#7a2017]">
+                            <input type="text" placeholder="2. Contoh: الْأُسْوَةُ الْحَسَنَةُ (Teladan yang baik)" class="w-full px-3 py-1.5 rounded-lg bg-[#ece0c8]/90 border border-[#3b2313]/30 text-xs focus:outline-none focus:border-[#7a2017]">
+                            <input type="text" placeholder="3. Contoh: كَانَ الْحَفْلُ رَائِعًا (Perayaan itu meriah)" class="w-full px-3 py-1.5 rounded-lg bg-[#ece0c8]/90 border border-[#3b2313]/30 text-xs focus:outline-none focus:border-[#7a2017]">
+                            <button onclick="saveStudentReflection()" class="w-full py-2 rounded-lg bg-[#7a2017] text-[#ece0c8] text-xs font-bold hover:bg-[#5c1710] transition shadow">
+                                Simpan Catatan Generalisasi & Refleksi
+                            </button>
+                            <div id="reflectionSavedMsg" class="hidden text-center text-xs font-bold text-[#175638] pt-1">
+                                ✓ Catatan refleksi dan generalisasi berhasil disimpan!
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Refleksi Murid & Refleksi Guru (Sesuai Modul) -->
+                    <div class="stagger-item stagger-3 lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <!-- Refleksi Murid -->
+                        <div class="manuscript-card p-4 rounded-xl">
+                            <h3 class="font-bold text-sm text-[#175638] mb-2">🙋‍♂️ Refleksi Diri Murid</h3>
+                            <div class="space-y-2 text-xs">
+                                <label class="flex items-start gap-2 cursor-pointer">
+                                    <input type="checkbox" checked class="mt-0.5 accent-[#175638]">
+                                    <span>Saya mampu melafalkan kosakata perayaan Maulid Nabi ﷺ dengan benar.</span>
+                                </label>
+                                <label class="flex items-start gap-2 cursor-pointer">
+                                    <input type="checkbox" checked class="mt-0.5 accent-[#175638]">
+                                    <span>Saya memahami arti kosakata baru tentang Maulid Nabi ﷺ.</span>
+                                </label>
+                                <label class="flex items-start gap-2 cursor-pointer">
+                                    <input type="checkbox" checked class="mt-0.5 accent-[#175638]">
+                                    <span>Saya menyukai kegiatan *Gallery Walk* (keliling 5 pos kartu kata).</span>
+                                </label>
+                                <label class="flex items-start gap-2 cursor-pointer">
+                                    <input type="checkbox" checked class="mt-0.5 accent-[#175638]">
+                                    <span>Saya bisa membuat kalimat sederhana menggunakan kosakata baru & *Kaana*.</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Refleksi Guru -->
+                        <div class="manuscript-card p-4 rounded-xl">
+                            <h3 class="font-bold text-sm text-[#7a2017] mb-2">👨‍🏫 Evaluasi & Refleksi Guru</h3>
+                            <ul class="space-y-1.5 text-[11px] text-[#4e341e] list-disc list-inside">
+                                <li>Apakah alokasi waktu 1x30 menit mencukupi untuk tahapan *Discovery Learning* & *Gallery Walk*?</li>
+                                <li>Apakah pengelompokan heterogen (5 pos) berjalan tertib saat perpindahan antar-pos?</li>
+                                <li>Apakah murid yang belum lancar membaca Arab terbantu oleh tutor sebaya dan *flashcard*?</li>
+                                <li>Apakah intervensi guru efektif dalam meluruskan *makharijul huruf* dan pola *Kaana wa Akhawatuha*?</li>
+                            </ul>
+                        </div>
+
+                        <!-- Doa Penutup Majelis -->
+                        <div class="sm:col-span-2 manuscript-card p-3 rounded-xl bg-[#26170c] text-[#ece0c8] text-center">
+                            <p class="font-arabic text-lg md:text-xl text-[#26170c] font-bold" dir="rtl">
+                                سُبْحَانَكَ اللَّهُمَّ وَبِحَمْدِكَ، أَشْهَدُ أَنْ لَا إِلٰهَ إِلَّا أَنْتَ، أَسْتَغْفِرُكَ وَأَتُوبُ إِلَيْكَ
+                            </p>
+                            <p class="text-[11px] text-[#4e341e]">Pertemuan Berikutnya: Analisis Teks Qira’ah Naratif Lengkap & Praktik Dialog (Kalam) Peringatan Maulid Nabi ﷺ.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ==========================================
+         FLOATING APPLE MOTION DOCK NAVIGATION
+         ========================================== -->
+    <nav class="fixed bottom-4 left-1/2 -translate-x-1/2 z-30 apple-dock px-3 py-2 rounded-2xl flex items-center gap-2 md:gap-4 text-[#ece0c8]">
+        <button onclick="prevSlide()" class="px-3 py-1.5 rounded-xl bg-[#ece0c8]/10 hover:bg-[#ece0c8]/25 active:scale-95 transition text-xs font-bold flex items-center gap-1">
+            <span>←</span> <span class="hidden sm:inline">Sebelumnya</span>
+        </button>
+
+        <!-- Slide Dots -->
+        <div class="flex items-center gap-1.5 px-2" id="slideDotsContainer">
+            <!-- Generated by JS -->
+        </div>
+
+        <span id="slideCounterText" class="text-xs font-mono text-[#d9c39e] min-w-[42px] text-center">1 / 8</span>
+
+        <button onclick="nextSlide()" class="px-3 py-1.5 rounded-xl bg-[#7a2017] hover:bg-[#96281d] active:scale-95 transition text-xs font-bold flex items-center gap-1 shadow">
+            <span class="hidden sm:inline">Selanjutnya</span> <span>→</span>
+        </button>
+    </nav>
+
+    <!-- ==========================================
+         POP-UP MODAL: ANALISIS KATA NAHWU & SHOROF
+         ========================================== -->
+    <div id="wordModalOverlay" onclick="closeWordPopup(event)" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4 transition-opacity">
+        <div class="parchment-canvas border-2 border-[#26170c] rounded-2xl max-w-lg w-full p-6 shadow-2xl transform transition-all scale-100 relative" onclick="event.stopPropagation()">
+            <button onclick="closeWordPopup()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-[#26170c] text-[#ece0c8] font-bold text-sm flex items-center justify-center hover:bg-[#7a2017] transition">✕</button>
+            
+            <div class="text-center border-b border-[#3b2313]/30 pb-3">
+                <span id="popupBadge" class="text-[11px] font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-[#7a2017] text-[#ece0c8]">Analisis Gramatikal</span>
+                <h3 id="popupArabicWord" class="font-arabic text-5xl font-bold text-[#26170c] mt-3" dir="rtl">كَانَ</h3>
+                <p id="popupTranslit" class="text-xs font-mono uppercase tracking-wider text-[#4e341e] mt-1">kaana</p>
+                <p id="popupMeaning" class="text-lg font-bold text-[#7a2017] mt-1">"Adalah / Berlangsung (Lampau)"</p>
+            </div>
+
+            <div class="space-y-3 mt-4 text-xs md:text-sm">
+                <div class="p-3 rounded-xl bg-[#ece0c8]/80 border border-[#3b2313]/25">
+                    <div class="font-bold text-[#175638] uppercase text-[11px] tracking-wider">📐 Analisis Nahwu (I'rab & Kedudukan Kalimat)</div>
+                    <p id="popupNahwu" class="text-[#26170c] mt-1 leading-relaxed"></p>
+                </div>
+
+                <div class="p-3 rounded-xl bg-[#ece0c8]/80 border border-[#3b2313]/25">
+                    <div class="font-bold text-[#8c6224] uppercase text-[11px] tracking-wider">⚖️ Analisis Shorof (Morfologi, Wazan & Akar Kata)</div>
+                    <p id="popupShorof" class="text-[#26170c] mt-1 leading-relaxed"></p>
+                </div>
+
+                <div class="p-3 rounded-xl bg-[#26170c] text-[#ece0c8]">
+                    <div class="font-bold text-[#d9c39e] uppercase text-[10px] tracking-wider">💡 Catatan Makhraj & Konteks Cinta Rasul ﷺ</div>
+                    <p id="popupNotes" class="mt-0.5 text-xs text-[#ece0c8]/90"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================
+         POP-UP MODAL: INFORMASI LENGKAP MODUL AJAR
+         ========================================== -->
+    <div id="moduleInfoModal" onclick="closeModuleInfoModal(event)" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+        <div class="parchment-canvas border-2 border-[#26170c] rounded-2xl max-w-2xl w-full p-6 shadow-2xl max-h-[85vh] overflow-y-auto custom-scroll relative" onclick="event.stopPropagation()">
+            <button onclick="closeModuleInfoModal()" class="
+                absolute top-4 right-4 w-8 h-8 rounded-full bg-[#26170c] text-[#ece0c8] font-bold flex items-center justify-center hover:bg-[#7a2017]">✕</button>
+            <h3 class="text-xl font-bold text-[#26170c] border-b border-[#3b2313]/30 pb-2">📄 Ringkasan Dokumen Modul Ajar</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs mt-3">
+                <div class="p-3 rounded-lg bg-[#ece0c8]/80">
+                    <div class="font-bold text-[#7a2017]">Identitas Penyusun</div>
+                    <p class="mt-1"><b>Nama:</b> Abdilah Adi Harisman (NIM. 21120201)<br><b>Prodi:</b> Pendidikan Agama Islam - Fak. Tarbiyah<br><b>Kampus:</b> Universitas Islam KH Ruhiat Cipasung<br><b>Tempat Praktik:</b> MTs Al-Hidayah Bojongnangka</p>
+                </div>
+                <div class="p-3 rounded-lg bg-[#ece0c8]/80">
+                    <div class="font-bold text-[#7a2017]">Diferensiasi Pembelajaran</div>
+                    <p class="mt-1"><b>Murid Reguler/Belum Lancar:</b> Dibantu kartu kosakata berwarna (*flashcard*) dan tutor sebaya.<br><b>Murid Mahir/Berbakat:</b> Diberi tantangan pengayaan merangkai paragraf naratif mandiri.</p>
+                </div>
+                <div class="p-3 rounded-lg bg-[#ece0c8]/80 sm:col-span-2">
+                    <div class="font-bold text-[#7a2017]">Sarana, Prasarana & Sumber Belajar</div>
+                    <p class="mt-1">LCD Proyektor, Laptop, Jaringan Internet, Kartu Kosakata (*Flashcard*), Kartu Kata Berwarna (Isim, Khabar, Kaana), LKPD 1, Buku Teks Bahasa Arab MTs Kelas IX, Kamus Al-Munawwir & Almaany.com.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================
+         JAVASCRIPT ENGINE: SLIDES, VOCAB, POPUPS, QUIZ & SOUND
+         ========================================== -->
+    <script>
+        // --- 1. TACTILE SOUND ENGINE (Tone.js) ---
+        let synth = null;
+        function playClickSound(note = "C5", duration = "32n") {
+            try {
+                if (typeof Tone !== "undefined") {
+                    if (!synth) {
+                        synth = new Tone.PolySynth(Tone.Synth, {
+                            oscillator: { type: "triangle" },
+                            envelope: { attack: 0.005, decay: 0.08, sustain: 0, release: 0.08 }
+                        }).toDestination();
+                        synth.volume.value = -14;
+                    }
+                    if (Tone.context.state !== "running") {
+                        Tone.start();
+                    }
+                    synth.triggerAttackRelease(note, duration);
+                }
+            } catch (e) {
+                // Ignore audio errors if blocked by browser autoplay policy
+            }
+        }
+
+        // --- 2. 26 MUFRADAT DATABASE (GROUPED INTO 5 GALLERY WALK POS) ---
+        const vocabList = [
+            // POS 1: Waktu & Tempat (6 Kata)
+            { id: 'v1', pos: 'pos1', posLabel: 'Pos 1 • Waktu & Tempat', ar: 'الْحَفْلُ', tr: 'al-ḥaflu', idn: 'Perayaan / Acara', nahwu: 'Isim Mufrad Mudzakkar. Jamaknya: الْحَفَلَاتُ.', shorof: 'Masdar dari fi\'il حَفَلَ - يَحْفِلُ - حَفْلًا (berkumpul/merayakan).' },
+            { id: 'v2', pos: 'pos1', posLabel: 'Pos 1 • Waktu & Tempat', ar: 'مَوْلِدُ الرَّسُولِ', tr: 'maulidur-rasūli', idn: 'Kelahiran / Maulid Rasul', nahwu: 'Susunan Idhafah (Mudhaf + Mudhaf Ilaih مجرور).', shorof: 'مَوْلِدٌ adalah Isim Zaman/Makan atau Masdar Mimi dari وَلَدَ - يَلِدُ (Wazan مَفْعِلٌ).' },
+            { id: 'v3', pos: 'pos1', posLabel: 'Pos 1 • Waktu & Tempat', ar: 'رَبِيعُ الْأَوَّلِ', tr: 'rabī‘ul-awwali', idn: 'Bulan Rabi’ul Awwal', nahwu: 'Idhafah. Bulan ke-3 dalam kalender Hijriyah.', shorof: 'رَبِيعٌ berwazan فَعِيلٌ dari akar kata ر-ب-ع.' },
+            { id: 'v4', pos: 'pos1', posLabel: 'Pos 1 • Waktu & Tempat', ar: 'الْقَاعَةُ', tr: 'al-qā‘atu', idn: 'Aula / Gedung Pertemuan', nahwu: 'Isim Mufrad Muannats (ditandai Ta\' Marbuthah). Jamaknya: الْقَاعَاتُ.', shorof: 'Isim Jamid / Makan untuk ruangan luas.' },
+            { id: 'v5', pos: 'pos1', posLabel: 'Pos 1 • Waktu & Tempat', ar: 'الْمَسْجِدُ', tr: 'al-masjidu', idn: 'Masjid', nahwu: 'Isim Mufrad Mudzakkar. Jamak Taksir: الْمَسَاجِدُ.', shorof: 'Isim Makan dari سَجَدَ - يَسْجُدُ (Wazan مَفْعِلٌ — tempat sujud).' },
+            { id: 'v6', pos: 'pos1', posLabel: 'Pos 1 • Waktu & Tempat', ar: 'الْمِنَصَّةُ', tr: 'al-minaṣṣatu', idn: 'Panggung / Mimbar Utama', nahwu: 'Isim Mufrad Muannats.', shorof: 'Isim Alat/Makan berwazan مِفْعَلَةٌ dari akar ن-ص-ص (meninggikan).' },
+
+            // POS 2: Tokoh (5 Kata)
+            { id: 'v7', pos: 'pos2', posLabel: 'Pos 2 • Tokoh', ar: 'الدَّاعِي', tr: 'ad-dā‘ī', idn: 'Penceramah / Da’i', nahwu: 'Isim Manqush (diakhiri Ya\' lazimah). Jamaknya: الدُّعَاةُ.', shorof: 'Isim Fa\'il dari دَعَا - يَدْعُو (Fi\'il Naqish) berwazan فَاعِلٌ.' },
+            { id: 'v8', pos: 'pos2', posLabel: 'Pos 2 • Tokoh', ar: 'اللَّجْنَةُ', tr: 'al-lajnatu', idn: 'Panitia Acara', nahwu: 'Isim Mufrad Muannats. Jamaknya: اللِّجَانُ.', shorof: 'Isim Jamid bermakna kelompok kerja.' },
+            { id: 'v9', pos: 'pos2', posLabel: 'Pos 2 • Tokoh', ar: 'الْمَدْعُوُّونَ', tr: 'al-mad‘uwwūna', idn: 'Para Tamu Undangan', nahwu: 'Jamak Mudzakkar Salim (Marfu\' dengan Wawu). Mufradnya: مَدْعُوٌّ.', shorof: 'Isim Maf\'ul dari دَعَا - يَدْعُو (Wazan مَفْعُولٌ).' },
+            { id: 'v10', pos: 'pos2', posLabel: 'Pos 2 • Tokoh', ar: 'الْحَاضِرُونَ', tr: 'al-ḥāḍirūna', idn: 'Para Hadirin', nahwu: 'Jamak Mudzakkar Salim. Saat Manshub/Majrur menjadi الْحَاضِرِينَ.', shorof: 'Isim Fa\'il dari حَضَرَ - يَحْضُرُ (Wazan فَاعِلٌ).' },
+            { id: 'v11', pos: 'pos2', posLabel: 'Pos 2 • Tokoh', ar: 'أَوْلِيَاءُ الطُّلَّابِ', tr: 'auliyā’uṭ-ṭullābi', idn: 'Wali Murid', nahwu: 'Susunan Idhafah. أَوْلِيَاءُ adalah Jamak Taksir dari وَلِيٌّ.', shorof: 'الطُّلَّابُ adalah Jamak Taksir dari طَالِبٌ (Isim Fa\'il طَلَبَ).' },
+
+            // POS 3: Kegiatan (6 Kata)
+            { id: 'v12', pos: 'pos3', posLabel: 'Pos 3 • Kegiatan', ar: 'إِحْتَفَلَ - يَحْتَفِلُ', tr: 'iḥtafala - yaḥtafilu', idn: 'Merayakan / Memperingati', nahwu: 'Fi\'il Lazim yang membutuhkan huruf jar بِـ (إِحْتَفَلَ بِـ).', shorof: 'Fi\'il Tsulatsi Mazid Khumasi berwazan إِفْتَعَلَ - يَفْتَعِلُ (Akar: ح-ف-ل).' },
+            { id: 'v13', pos: 'pos3', posLabel: 'Pos 3 • Kegiatan', ar: 'الْمُحَاضَرَةُ الدِّينِيَّةُ', tr: 'al-muḥāḍaratud-dīniyyatu', idn: 'Ceramah / Tausiyah Agama', nahwu: 'Na\'at (Sifat) dan Man\'ut (Yang disifati), sama-sama Muannats.', shorof: 'مُحَاضَرَةٌ adalah Masdar dari حَاضَرَ - يُحَاضِرُ (Wazan مُفَاعَلَةٌ).' },
+            { id: 'v14', pos: 'pos3', posLabel: 'Pos 3 • Kegiatan', ar: 'تِلَاوَةُ الْقُرْآنِ', tr: 'tilāwatul-qur’āni', idn: 'Pembacaan Ayat Suci Al-Qur’an', nahwu: 'Idhafah (Mudhaf + Mudhaf Ilaih).', shorof: 'تِلَاوَةٌ adalah Masdar dari تَلَا - يَتْلُو (Wazan فِعَالَةٌ).' },
+            { id: 'v15', pos: 'pos3', posLabel: 'Pos 3 • Kegiatan', ar: 'الصَّلَوَاتُ النَّبَوِيَّةُ', tr: 'aṣ-ṣalawātun-nabawiyyatu', idn: 'Lantunan Shalawat Nabi', nahwu: 'Jamak Muannats Salim dari صَلَاةٌ disifati dengan Isim Nisbah النَّبَوِيَّةُ.', shorof: 'Akar kata ص-ل-و (doa/rahmat/pujian).' },
+            { id: 'v16', pos: 'pos3', posLabel: 'Pos 3 • Kegiatan', ar: 'الْكَلِمَةُ التَّرْحِيبِيَّةُ', tr: 'al-kalimatut-tarḥībiyyatu', idn: 'Kata Sambutan', nahwu: 'Man\'ut + Na\'at Muannats.', shorof: 'تَرْحِيبٌ adalah Masdar dari رَحَّبَ - يُرَحِّبُ (Wazan تَفْعِيلٌ).' },
+            { id: 'v17', pos: 'pos3', posLabel: 'Pos 3 • Kegiatan', ar: 'السِّيرَةُ النَّبَوِيَّةُ', tr: 'as-sīratun-nabawiyyatu', idn: 'Sejarah Perjalanan Hidup Nabi', nahwu: 'Man\'ut + Na\'at Muannats.', shorof: 'سِيرَةٌ berwazan فِعْلَةٌ dari سَارَ - يَسِيرُ (perjalanan).' },
+
+            // POS 4: Sifat & Keadaan (5 Kata)
+            { id: 'v18', pos: 'pos4', posLabel: 'Pos 4 • Sifat & Keadaan', ar: 'كَانَ - يَكُونُ', tr: 'kāna - yakūnu', idn: 'Adalah / Menjadi (Lampau)', nahwu: 'Fi\'il Madhi Naqish. Me-rafa\'-kan Isim dan me-nashab-kan Khabar.', shorof: 'Fi\'il Mu\'tal Ajwaf Wawu (Akar: ك-و-ن).' },
+            { id: 'v19', pos: 'pos4', posLabel: 'Pos 4 • Sifat & Keadaan', ar: 'مَسْرُورٌ', tr: 'masrūrun', idn: 'Gembira / Bahagia', nahwu: 'Isim Mufrad. Jika menjadi Khabar Kaana berubah menjadi مَسْرُورًا.', shorof: 'Isim Maf\'ul dari سَرَّ - يَسُرُّ (Wazan مَفْعُولٌ).' },
+            { id: 'v20', pos: 'pos4', posLabel: 'Pos 4 • Sifat & Keadaan', ar: 'مُنَظَّمٌ', tr: 'munaẓẓamun', idn: 'Teratur / Tersusun Rapi', nahwu: 'Jika menjadi Khabar Kaana menjadi مُنَظَّمًا.', shorof: 'Isim Maf\'ul dari نَظَّمَ - يُنَظِّمُ (Wazan مُفَعَّلٌ).' },
+            { id: 'v21', pos: 'pos4', posLabel: 'Pos 4 • Sifat & Keadaan', ar: 'خَاشِعٌ', tr: 'khāsyi‘un', idn: 'Khusyuk / Tenang Hati', nahwu: 'Jika menjadi Khabar Kaana menjadi خَاشِعًا.', shorof: 'Isim Fa\'il dari خَشَعَ - يَخْشَعُ (Wazan فَاعِلٌ).' },
+            { id: 'v22', pos: 'pos4', posLabel: 'Pos 4 • Sifat & Keadaan', ar: 'مُزْدَحِمٌ', tr: 'muzdaḥimun', idn: 'Ramai / Penuh Sesak', nahwu: 'Jika menjadi Khabar Kaana menjadi مُزْدَحِمًا.', shorof: 'Isim Fa\'il dari إِزْدَحَمَ - يَزْدَحِمُ (Wazan مُفْتَعِلٌ, penggantian Ta\' menjadi Dal).' },
+
+            // POS 5: Nilai & Teladan Cinta (4 Kata)
+            { id: 'v23', pos: 'pos5', posLabel: 'Pos 5 • Nilai & Teladan', ar: 'الْأُسْوَةُ الْحَسَنَةُ', tr: 'al-uswatul-ḥasanatu', idn: 'Suri Teladan yang Baik', nahwu: 'Man\'ut + Na\'at (QS. Al-Ahzab: 21).', shorof: 'أُسْوَةٌ berwazan فُعْلَةٌ (ikutan/panutan).' },
+            { id: 'v24', pos: 'pos5', posLabel: 'Pos 5 • Nilai & Teladan', ar: 'الْأَخْلَاقُ الْكَرِيمَةُ', tr: 'al-akhlāqul-karīmatu', idn: 'Akhlak yang Mulia', nahwu: 'أَخْلَاقٌ adalah Jamak Taksir tak berakal sehingga disifati Mufrad Muannats (الْكَرِيمَةُ).', shorof: 'Jamak dari خُلُقٌ (budi pekerti).' },
+            { id: 'v25', pos: 'pos5', posLabel: 'Pos 5 • Nilai & Teladan', ar: 'الْمَحَبَّةُ', tr: 'al-maḥabbatu', idn: 'Rasa Cinta / Kasih Sayang', nahwu: 'Isim Mufrad Muannats (Inti Kurikulum Berbasis Cinta).', shorof: 'Masdar Mimi dari أَحَبَّ / حَبَّ - يَحِبُّ (Akar: ح-ب-ب).' },
+            { id: 'v26', pos: 'pos5', posLabel: 'Pos 5 • Nilai & Teladan', ar: 'رَحْمَةٌ لِلْعَالَمِينَ', tr: 'raḥmatun lil-‘ālamīna', idn: 'Kasih Sayang bagi Semesta Alam', nahwu: 'رَحْمَةٌ diikuti Jar-Majrur لِلْعَالَمِينَ (Majrur dengan Ya\').', shorof: 'Masdar dari رَحِمَ - يَرْحَمُ (QS. Al-Anbiya: 107).' }
+        ];
+
+        function renderVocabCards(filter = 'all') {
+            const grid = document.getElementById('vocabGrid');
+            const filtered = filter === 'all' ? vocabList : vocabList.filter(v => v.pos === filter);
+            grid.innerHTML = filtered.map((item, idx) => `
+                <div class="vocab-card h-36 cursor-pointer perspective" onclick="flipVocabCard(this, '${item.id}')">
+                    <div class="vocab-card-inner relative w-full h-full">
+                        <!-- Front -->
+                        <div class="vocab-front absolute inset-0 manuscript-card rounded-xl p-3 flex flex-col justify-between text-center">
+                            <div class="flex justify-between items-center text-[10px] font-bold text-[#7a2017]">
+                                <span>#${idx + 1}</span>
+                                <span class="truncate max-w-[110px]">${item.posLabel.split('•')[1]}</span>
+                            </div>
+                            <div class="font-arabic text-2xl md:text-3xl font-bold text-[#26170c] my-auto" dir="rtl">${item.ar}</div>
+                            <div class="text-[11px] font-semibold text-[#4e341e] truncate">${item.idn}</div>
+                        </div>
+                        <!-- Back -->
+                        <div class="vocab-back absolute inset-0 rounded-xl p-3 bg-[#26170c] text-[#ece0c8] flex flex-col justify-between text-left border border-[#d9c39e]/40">
+                            <div>
+                                <div class="text-[10px] font-mono text-[#d9c39e]">${item.tr}</div>
+                                <div class="text-xs font-bold text-white">${item.idn}</div>
+                                <p class="text-[10px] text-[#ece0c8]/80 mt-1 line-clamp-2">${item.shorof}</p>
+                            </div>
+                            <button onclick="event.stopPropagation(); openVocabDetail('${item.id}')" class="w-full py-1 rounded bg-[#7a2017] text-[10px] font-bold text-center hover:bg-[#96281d]">
+                                🔍 Detail Nahwu & Shorof
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function flipVocabCard(cardEl) {
+            playClickSound("E5", "32n");
+            cardEl.classList.toggle('flipped');
+        }
+
+        function filterVocabPos(pos) {
+            playClickSound("G4", "32n");
+            document.querySelectorAll('.pos-tab').forEach(btn => {
+                btn.classList.remove('bg-[#26170c]', 'text-[#ece0c8]');
+                btn.classList.add('bg-[#ece0c8]/70', 'text-[#26170c]');
+            });
+            event.currentTarget.classList.remove('bg-[#ece0c8]/70', 'text-[#26170c]');
+            event.currentTarget.classList.add('bg-[#26170c]', 'text-[#ece0c8]');
+            renderVocabCards(pos);
+        }
+
+        function openVocabDetail(vocabId) {
+            const v = vocabList.find(x => x.id === vocabId);
+            if (!v) return;
+            playClickSound("A5", "16n");
+            document.getElementById('popupBadge').textContent = v.posLabel;
+            document.getElementById('popupArabicWord').textContent = v.ar;
+            document.getElementById('popupTranslit').textContent = v.tr;
+            document.getElementById('popupMeaning').textContent = `"${v.idn}"`;
+            document.getElementById('popupNahwu').textContent = v.nahwu;
+            document.getElementById('popupShorof').textContent = v.shorof;
+            document.getElementById('popupNotes').textContent = "Perhatikan panjang-pendek bacaan (mad) dan makharijul huruf saat melafalkan di pos Gallery Walk.";
+            const modal = document.getElementById('wordModalOverlay');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        // --- 3. WORD-BY-WORD NAHWU & SHOROF DICTIONARY FOR SLIDE 5 & SLIDE 6 ---
+        const wordAnalysisDB = {
+            // Slide 5 Tokens
+            'kaana_1': {
+                ar: 'كَانَ', tr: 'kāna', idn: 'Adalah / Berlangsung (Waktu Lampau)',
+                badge: 'Fi\'il Madhi Naqish • كَانَ وَأَخَوَاتُهَا',
+                nahwu: 'Fi\'il Madhi Naqish Mabni \'alal Fathi. Berfungsi me-rafa\'-kan Mubtada\' (sebagai Isim Kaana) dan me-nashab-kan Khabar (sebagai Khabar Kaana).',
+                shorof: 'Berasal dari akar kata ك - و - ن (Fi\'il Mu\'tal Ajwaf). Tasrif: كَانَ - يَكُونُ - كَوْنًا - فَهُوَ كَائِنٌ.',
+                notes: 'Digunakan untuk menceritakan peristiwa peringatan Maulid Nabi ﷺ yang telah berlangsung.'
+            },
+            'alhaflu_1': {
+                ar: 'الْحَفْلُ', tr: 'al-ḥaflu', idn: 'Perayaan / Acara Peringatan itu',
+                badge: 'Isim Kaana • مَرْفُوعٌ',
+                nahwu: 'Isim Kaana (اسْمُ كَانَ) berstatus Marfu\' (مَرْفُوعٌ), dan tanda rafa\'-nya adalah harakat Dhammah الظاهرة di akhir kata karena berupa Isim Mufrad.',
+                shorof: 'Masdar dari fi\'il Tsulatsi Mujarrad حَفَلَ - يَحْفِلُ - حَفْلًا (berkumpul merayakan).',
+                notes: 'Perhatikan huruf ح (Ha\' kecil) diucapkan bersih dari tenggorokan tengah (Wasthul Halq).'
+            },
+            'kabiiran_1': {
+                ar: 'كَبِيرًا', tr: 'kabīran', idn: 'Meriah / Besar',
+                badge: 'Khabar Kaana • مَنْصُوبٌ',
+                nahwu: 'Khabar Kaana (خَبَرُ كَانَ) berstatus Manshub (مَنْصُوبٌ), dan tanda nashab-nya adalah Fathah الظاهرة (Fathatain) di akhir kata.',
+                shorof: 'Shifat Musyabbahah باسم الفاعل berwazan فَعِيلٌ dari fi\'il كَبُرَ - يَكْبُرُ (Akar: ك-ب-ر).',
+                notes: 'Sebelum kemasukan كَانَ, kalimat asalnya adalah الْحَفْلُ كَبِيرٌ (Dhammatain).'
+            },
+            'fi_1': {
+                ar: 'فِي', tr: 'fī', idn: 'Di / Di dalam',
+                badge: 'Huruf Jar • حَرْفُ جَرٍّ',
+                nahwu: 'Huruf Jar Mabni \'alas Sukun. Membuat isim setelahnya menjadi Majrur.',
+                shorof: 'Kalimat Harf (tidak mengalami tasrif/perubahan bentuk).',
+                notes: 'Dibaca panjang 2 harakat (Mad Thabi\'i).'
+            },
+            'alqaaati_1': {
+                ar: 'الْقَاعَةِ', tr: 'al-qā‘ati', idn: 'Aula / Gedung Pertemuan',
+                badge: 'Isim Majrur • مَجْرُورٌ',
+                nahwu: 'Isim Majrur karena didahului huruf jar فِي, tanda jar-nya adalah harakat Kasrah di akhir kata.',
+                shorof: 'Isim Mufrad Muannats. Jamaknya adalah الْقَاعَاتُ.',
+                notes: 'Makhraj ق (Qaf) di pangkal lidah dan ع (\'Ain) di tengah tenggorokan.'
+            },
+            'kaanat_2': {
+                ar: 'كَانَتْ', tr: 'kānat', idn: 'Adalah (Untuk Subjek Muannats)',
+                badge: 'Fi\'il Madhi Naqish + Ta\' Ta\'nits',
+                nahwu: 'كَانَ adalah Fi\'il Madhi Naqish, sedangkan تْ adalah Ta\' Ta\'nits Sakinah karena Isim Kaana-nya (السِّيرَةُ) berjenis Muannats.',
+                shorof: 'Tasrif lughawi dari كَانَ untuk dhamir هِيَ (Dia perempuan / benda muannats).',
+                notes: 'Kesesuaian jenis (Mudzakkar/Muannats) antara Fi\'il dan Isim Kaana wajib diperhatikan.'
+            },
+            'assiiratu_2': {
+                ar: 'السِّيرَةُ', tr: 'as-sīratu', idn: 'Kisah Perjalanan Hidup (Sirah)',
+                badge: 'Isim Kaanat • مَرْفُوعٌ',
+                nahwu: 'Isim Kaanat (اسْمُ كَانَتْ) Marfu\' dengan tanda harakat Dhammah.',
+                shorof: 'Isim Hai\'ah / Masdar berwazan فِعْلَةٌ dari سَارَ - يَسِيرُ (Fi\'il Ajwaf Ya\'i: س-ي-ر).',
+                notes: 'Mengenal Sirah Nabawiyah menumbuhkan mahabbah (cinta) kepada Rasulullah ﷺ.'
+            },
+            'annabawiyyatu_2': {
+                ar: 'النَّبَوِيَّةُ', tr: 'an-nabawiyyatu', idn: 'Yang berkaitan dengan Nabi ﷺ',
+                badge: 'Na\'at (Kata Sifat) • مَرْفُوعٌ',
+                nahwu: 'Na\'at (Sifat) bagi السِّيرَةُ. Mengikuti Man\'ut dalam keadaan Marfu\' (Dhammah), Muannats, dan Ma\'rifat.',
+                shorof: 'Isim Манsub (Nisbah) kepada النَّبِيُّ dengan tambahan Ya\' Nisbah bertasydid dan Ta\' Marbuthah.',
+                notes: 'Bukan Khabar Kaanat, melainkan kata sifat penjelas bagi kata السِّيرَةُ.'
+            },
+            'muatshiratan_2': {
+                ar: 'مُؤَثِّرَةً', tr: 'mu’atstsyiratan', idn: 'Menyentuh Hati / Berkesan Mendalam',
+                badge: 'Khabar Kaanat • مَنْصُوبٌ',
+                nahwu: 'Khabar Kaanat (خَبَرُ كَانَتْ) Manshub dengan tanda Fathah (Fathatain) di akhir kata.',
+                shorof: 'Isim Fa\'il Muannats dari fi\'il أَثَّرَ - يُؤَثِّرُ - تَأْثِيرًا (Wazan مُفَعِّلَةٌ).',
+                notes: 'Makhraj ث (Tsa\') ujung lidah menyentuh ujung gigi seri atas.'
+            },
+            'asbaha_3': {
+                ar: 'أَصْبَحَ', tr: 'aṣbaḥa', idn: 'Menjadi (Di waktu pagi / berubah keadaan)',
+                badge: 'Saudara Kaana • مِنْ أَخَوَاتِ كَانَ',
+                nahwu: 'Fi\'il Madhi Naqish dari kelompok saudari كَانَ. Beramal me-rafa\'-kan Isim dan me-nashab-kan Khabar.',
+                shorof: 'Fi\'il Mazid Ruba\'i berwazan أَفْعَلَ - يُفْعِلُ - إِفْعَالًا (Akar: ص-ب-ح).',
+                notes: 'Selain كَانَ, saudaranya yang sering dipakai antara lain: أَصْبَحَ، صَارَ، لَيْسَ، ظَلَّ، أَمْسَى.'
+            },
+            'alhaadiruuna_3': {
+                ar: 'الْحَاضِرُونَ', tr: 'al-ḥāḍirūna', idn: 'Para Hadirin',
+                badge: 'Isim Ashbaha • مَرْفُوعٌ بِالْوَاوِ',
+                nahwu: 'Isim Ashbaha Marfu\', tanda rafa\'-nya adalah huruf Wawu (و) karena berupa Jamak Mudzakkar Salim.',
+                shorof: 'Jamak dari حَاضِرٌ (Isim Fa\'il dari حَضَرَ - يَحْضُرُ berwazan فَاعِلٌ).',
+                notes: 'Perhatikan perbedaan tanda i\'rab antara Isim Mufrad (Dhammah) dan Jamak Mudzakkar Salim (Wawu).'
+            },
+            'masruuriina_3': {
+                ar: 'مَسْرُورِينَ', tr: 'masrūrīna', idn: 'Orang-orang yang Gembira / Bahagia',
+                badge: 'Khabar Ashbaha • مَنْصُوبٌ بِالْيَاءِ',
+                nahwu: 'Khabar Ashbaha Manshub, tanda nashab-nya adalah huruf Ya\' (ي) karena berupa Jamak Mudzakkar Salim.',
+                shorof: 'Jamak dari مَسْرُورٌ (Isim Maf\'ul dari سَرَّ - يَسُرُّ berwazan مَفْعُولٌ).',
+                notes: 'Saat Marfu\' berakhiran ـُونَ, sedangkan saat Manshub menjadi Khabar Kaana berakhiran ـِينَ.'
+            },
+            'shaara_4': {
+                ar: 'صَارَ', tr: 'ṣāra', idn: 'Menjadi',
+                badge: 'Saudara Kaana • مِنْ أَخَوَاتِ كَانَ',
+                nahwu: 'Fi\'il Madhi Naqish bermakna التَّحَوُّل (menjadi). Me-rafa\'-kan Isim dan me-nashab-kan Khabar.',
+                shorof: 'Fi\'il Mu\'tal Ajwaf Ya\'i: صَارَ - يَصِيرُ - صَيْرُورَةً (Akar: ص-ي-ر).',
+                notes: 'Makhraj ص (Shad) tebal (Tafkhim / Isti\'la).'
+            },
+            'arrasulu_4': {
+                ar: 'الرَّسُولُ ﷺ', tr: 'ar-rasūlu', idn: 'Rasulullah ﷺ',
+                badge: 'Isim Shaara • مَرْفُوعٌ',
+                nahwu: 'Isim Shaara Marfu\' dengan tanda harakat Dhammah.',
+                shorof: 'Berwazan فَعُولٌ bermakna מُرْسَلٌ (yang diutus) dari akar kata ر-س-ل.',
+                notes: 'Setiap mendengar nama beliau, mari bershalawat: صَلَّى اللّٰهُ عَلَيْهِ وَسَلَّمَ.'
+            },
+            'qudwatan_4': {
+                ar: 'قُدْوَةً', tr: 'qudwatan', idn: 'Suri Teladan / Panutan',
+                badge: 'Khabar Shaara • مَنْصُوبٌ',
+                nahwu: 'Khabar Shaara Manshub dengan tanda Fathah (Fathatain).',
+                shorof: 'Isim berwazan فُعْلَةٌ dari akar kata ق-د-و (من يقتدى به).',
+                notes: 'Sinonim dengan kata أُسْوَةٌ (teladan).'
+            },
+            'lanaa_4': {
+                ar: 'لَنَا', tr: 'lanā', idn: 'Bagi Kita',
+                badge: 'Jar & Majrur',
+                nahwu: 'tersusun dari Huruf Jar لِـ dan Dhamir Muttashil نَا (Mabni fi mahalli jarrin).',
+                shorof: 'Dhamir Muttashil untuk Mutakallim Ma\'al Ghair (Kita/Kami).',
+                notes: 'Menegaskan bahwa keteladanan Nabi ﷺ adalah untuk kita amalkan bersama.'
+            },
+
+            // Slide 6 Narrative Text Tokens
+            'txt_1': { ar: 'إِحْتَفَلَ', tr: 'iḥtafala', idn: 'Telah merayakan', badge: 'Fi\'il Madhi', nahwu: 'Fi\'il Madhi Mabni \'alal Fathi (Kata kerja lampau di awal Jumlah Fi\'liyyah).', shorof: 'Wazan إِفْتَعَلَ - يَفْتَعِلُ - إِفْتِعَالًا dari akar ح-ف-ل.', notes: 'Hamzah di awal kata adalah Hamzah Washal.' },
+            'txt_2': { ar: 'الْمُسْلِمُونَ', tr: 'al-muslimūna', idn: 'Umat Islam (Subjek/Fa\'il)', badge: 'Fa\'il • مَرْفُوعٌ بِالْوَاوِ', nahwu: 'Fa\'il (Pelaku) dari إِحْتَفَلَ, Marfu\' dengan tanda huruf Wawu karena Jamak Mudzakkar Salim.', shorof: 'Jamak dari مُسْلِمٌ (Isim Fa\'il dari أَسْلَمَ - يُسْلِمُ - إِسْلَامًا).', notes: 'Menunjukkan kebersamaan umat Islam dalam merayakan Maulid.' },
+            'txt_3': { ar: 'بِذِكْرَى', tr: 'bi-dzikrā', idn: 'Dengan peringatan', badge: 'Jar & Majrur', nahwu: 'Huruf Jar بِـ + Isim Majrur ذِكْرَى dengan tanda Kasrah Muqaddarah (karena Alif Maqshurah).', shorof: 'Masdar berwazan فِعْلَى dari ذَكَرَ - يَذْكُرُ (mengingat).', notes: 'Fi\'il إِحْتَفَلَ selalu berpasangan dengan huruf jar بِـ.' },
+            'txt_4': { ar: 'مَوْلِدِ', tr: 'maulidi', idn: 'Kelahiran / Waktu lahir', badge: 'Mudhaf Ilaih • مَجْرُورٌ', nahwu: 'Mudhaf Ilaih Majrur dengan Kasrah, sekaligus menjadi Mudhaf bagi kata setelahnya.', shorof: 'Isim Zaman / Masdar Mimi berwazan مَفْعِلٌ dari وَلَدَ - يَلِدُ.', notes: 'Menjelaskan peringatan apa yang dirayakan.' },
+            'txt_5': { ar: 'الرَّسُولِ ﷺ', tr: 'ar-rasūli', idn: 'Rasulullah ﷺ', badge: 'Mudhaf Ilaih • مَجْرُورٌ', nahwu: 'Mudhaf Ilaih dari kata مَوْلِدِ, berstatus Majrur dengan tanda Kasrah.', shorof: 'Wazan فَعُولٌ dari رَسَلَ.', notes: 'Inti tema pembelajaran Bab 1 Kelas IX.' },
+            'txt_6': { ar: 'فِي', tr: 'fī', idn: 'Pada / Di dalam', badge: 'Huruf Jar', nahwu: 'Huruf Jar yang menunjukkan keterangan waktu/tempat (Zharfiyyah).', shorof: 'Huruf Mabni.', notes: '-' },
+            'txt_7': { ar: 'شَهْرِ', tr: 'syahri', idn: 'Bulan', badge: 'Isim Majrur & Mudhaf', nahwu: 'Isim Majrur karena فِي dengan tanda Kasrah. Jamaknya: شُهُورٌ / أَشْهُرٌ.', shorof: 'Isim Jamid berwazan فَعْلٌ.', notes: '-' },
+            'txt_8': { ar: 'رَبِيعِ الْأَوَّلِ', tr: 'rabī‘il-awwali', idn: 'Rabi’ul Awwal', badge: 'Mudhaf Ilaih', nahwu: 'Mudhaf Ilaih Majrur dengan tanda Kasrah.', shorof: 'Nama bulan ke-3 dalam penanggalan Hijriyah.', notes: 'Nabi Muhammad ﷺ lahir pada 12 Rabi\'ul Awwal Tahun Gajah.' },
+            'txt_9': { ar: 'كَانَ', tr: 'kāna', idn: 'Adalah / Berlangsung', badge: 'Fi\'il Madhi Naqish', nahwu: 'Fi\'il Madhi Naqish yang me-rafa\'-kan Isim-nya dan me-nashab-kan Khabar-nya.', shorof: 'كَانَ - يَكُونُ - كَوْنًا (Mu\'tal Ajwaf).', notes: 'Perhatikan perubahan kata setelah كَانَ!' },
+            'txt_10': { ar: 'الْحَفْلُ', tr: 'al-ḥaflu', idn: 'Perayaan itu', badge: 'Isim Kaana • مَرْفُوعٌ', nahwu: 'Isim Kaana Marfu\' dengan tanda harakat Dhammah.', shorof: 'Masdar حَفَلَ.', notes: '-' },
+            'txt_11': { ar: 'مُنَظَّمًا', tr: 'munaẓẓaman', idn: 'Tertata rapi / Terorganisir', badge: 'Khabar Kaana • مَنْصُوبٌ', nahwu: 'Khabar Kaana Manshub dengan tanda harakat Fathah (Fathatain).', shorof: 'Isim Maf\'ul dari نَظَّمَ - يُنَظِّمُ - تَنْظِيمًا (Wazan مُفَعَّلٌ).', notes: 'Mencerminkan nilai ketertiban dan gotong royong panitia.' },
+            'txt_12': { ar: 'فِي', tr: 'fī', idn: 'Di', badge: 'Huruf Jar', nahwu: 'Huruf Jar.', shorof: 'Huruf.', notes: '-' },
+            'txt_13': { ar: 'قَاعَةِ', tr: 'qā‘ati', idn: 'Aula', badge: 'Isim Majrur & Mudhaf', nahwu: 'Isim Majrur dengan Kasrah, menjadi Mudhaf bagi الْمَدْرَسَةِ.', shorof: 'Isim Mufrad Muannats.', notes: 'Tanpa Alif-Lam karena berstatus sebagai Mudhaf.' },
+            'txt_14': { ar: 'الْمَدْرَسَةِ', tr: 'al-madrasati', idn: 'Madrasah / Sekolah', badge: 'Mudhaf Ilaih • مَجْرُورٌ', nahwu: 'Mudhaf Ilaih Majrur dengan tanda Kasrah.', shorof: 'Isim Makan berwazan مَفْعَلَةٌ dari دَرَسَ - يَدْرُسُ (tempat belajar).', notes: 'MTs Al-Hidayah Bojongnangka.' },
+            'txt_15': { ar: 'أَلْقَى', tr: 'alqā', idn: 'Menyampaikan', badge: 'Fi\'il Madhi', nahwu: 'Fi\'il Madhi Mabni \'alal Fathi Muqaddar (karena diakhiri Alif Layyinah).', shorof: 'Fi\'il Mazid Ruba\'i: أَلْقَى - يُلْقِي - إِلْقَاءً (Akar: ل-ق-ي).', notes: 'Ungkapan baku Bahasa Arab untuk menyampaikan pidato/ceramah.' },
+            'txt_16': { ar: 'الدَّاعِي', tr: 'ad-dā‘ī', idn: 'Sang Penceramah / Da’i', badge: 'Fa\'il • مَرْفُوعٌ', nahwu: 'Fa\'il (Subjek) Marfu\' dengan Dhammah Muqaddarah di atas huruf Ya\' (Isim Manqush).', shorof: 'Isim Fa\'il dari دَعَا - يَدْعُو.', notes: '-' },
+            'txt_17': { ar: 'الْمُحَاضَرَةَ', tr: 'al-muḥāḍarata', idn: 'Ceramah / Tausiyah', badge: 'Maf\'ul Bih • مَنْصُوبٌ', nahwu: 'Maf\'ul Bih (Objek) Manshub dengan tanda harakat Fathah.', shorof: 'Masdar dari حَاضَرَ - يُحَاضِرُ - مُحَاضَرَةً.', notes: '-' },
+            'txt_18': { ar: 'الدِّينِيَّةَ', tr: 'ad-dīniyyata', idn: 'Keagamaan', badge: 'Na\'at • مَنْصُوبٌ', nahwu: 'Na\'at (Sifat) bagi الْمُحَاضَرَةَ, ikut Manshub dengan Fathah.', shorof: 'Isim Nisbah kepada الدِّينُ (Agama).', notes: '-' },
+            'txt_19': { ar: 'وَكَانَتْ', tr: 'wa kānat', idn: 'Dan adalah', badge: 'Wawu \'Athaf + Fi\'il Naqish', nahwu: 'كَانَتْ menggunakan Ta\' Ta\'nits karena Isim-nya (أَخْلَاقُ) adalah Jamak Taksir yang dihukumi Mufrad Muannats.', shorof: 'Fi\'il Madhi Naqish.', notes: 'Kaidah penting: Setiap Jamak Taksir tidak berakal dihukumi Mufrad Muannats (كُلُّ جَمْعٍ غَيْرِ عَاقِلٍ يُعَامَلُ مُعَامَلَةَ الْمُفْرَدَةِ الْمُؤَنَّثَةِ).' },
+            'txt_20': { ar: 'أَخْلَاقُ', tr: 'akhlāqu', idn: 'Akhlak / Budi Pekerti', badge: 'Isim Kaanat • مَرْفُوعٌ', nahwu: 'Isim Kaanat Marfu\' dengan Dhammah, sekaligus Mudhaf.', shorof: 'Jamak Taksir berwazan أَفْعَالٌ dari mufrad خُلُقٌ.', notes: '-' },
+            'txt_21': { ar: 'النَّبِيِّ ﷺ', tr: 'an-nabiyyi', idn: 'Nabi ﷺ', badge: 'Mudhaf Ilaih • مَجْرُورٌ', nahwu: 'Mudhaf Ilaih Majrur dengan tanda Kasrah.', shorof: 'Wazan فَعِيلٌ.', notes: '-' },
+            'txt_22': { ar: 'عَظِيمَةً', tr: '‘aẓīmatan', idn: 'Sangat Agung / Mulia', badge: 'Khabar Kaanat • مَنْصُوبٌ', nahwu: 'Khabar Kaanat Manshub dengan Fathah (Fathatain). Berbentuk Muannats mengikuti أَخْلَاقُ.', shorof: 'Shifat Musyabbahah berwazan فَعِيلَةٌ dari عَظُمَ - يَعْظُمُ.', notes: 'Sesuai firman Allah SWT dalam QS. Al-Qalam ayat 4: وَإِنَّكَ لَعَلَىٰ خُلُقٍ عَظِيمٍ.' },
+
+            // Shorof Table Tokens
+            'shorof_1a': { ar: 'إِحْتَفَلَ', tr: 'iḥtafala', idn: 'Telah merayakan (Fi\'il Madhi)', badge: 'Shorof • الفعل الماضي', nahwu: 'Mabni \'alal Fathi.', shorof: 'Wazan إِفْتَعَلَ (Bab Tsulatsi Mazid bi Harfain: Tambahan Hamzah Washal dan Ta\'). Akar kata: ح - ف - ل.', notes: 'Menunjukkan perbuatan merayakan di waktu lampau.' },
+            'shorof_1b': { ar: 'يَحْتَفِلُ', tr: 'yaḥtafilu', idn: 'Sedang/Akan merayakan (Fi\'il Mudhari\')', badge: 'Shorof • الفعل المضارع', nahwu: 'Marfu\' dengan Dhammah selama tidak didahului Amil Nashib atau Jazim.', shorof: 'Wazan يَفْتَعِلُ (Huruf mudhara\'ah berharakat fathah, \'ain fi\'il berharakat kasrah).', notes: '-' },
+            'shorof_1c': { ar: 'إِحْتِفَالًا', tr: 'iḥtifālan', idn: 'Perayaan (Masdar)', badge: 'Shorof • المصدر القياسي', nahwu: 'Isim Masdar (kata benda abstrak yang menunjukkan peristiwa tanpa terikat waktu).', shorof: 'Wazan إِفْتِعَالًا dari إِحْتَفَلَ.', notes: '-' },
+            'shorof_1d': { ar: 'مُحْتَفِلٌ', tr: 'muḥtafilun', idn: 'Orang yang merayakan (Isim Fa\'il)', badge: 'Shorof • اسم الفاعل', nahwu: 'Isim Musytaq.', shorof: 'Wazan مُفْتَعِلٌ (Diawali Mim مضمومة dan dikasrahkan huruf sebelum akhir).', notes: '-' },
+            'shorof_2a': { ar: 'وَلَدَ', tr: 'walada', idn: 'Melahirkan (Fi\'il Madhi)', badge: 'Shorof • الفعل المثال', nahwu: 'Fi\'il Madhi.', shorof: 'Fi\'il Mu\'tal Mitsal Wawu (Fa\' fi\'il berupa huruf \'illat Wawu): وَلَدَ - يَلِدُ.', notes: '-' },
+            'shorof_2b': { ar: 'يَلِدُ', tr: 'yalidu', idn: 'Melahirkan (Fi\'il Mudhari\')', badge: 'Shorof • الفعل المضارع', nahwu: 'Fi\'il Mudhari\'.', shorof: 'Huruf Wawu (Fa\' Fi\'il) dibuang pada bentuk Mudhari\' dari أَصْلُهُ يَوْلِدُ menjadi يَلِدُ.', notes: '-' },
+            'shorof_2c': { ar: 'مَوْلِدًا', tr: 'maulidan', idn: 'Kelahiran / Waktu & Tempat Lahir', badge: 'Shorof • اسم الزمان والمكان / المصدر الميمي', nahwu: 'Isim Zaman / Makan / Masdar Mimi.', shorof: 'Berwazan مَفْعِلٌ (dengan Kasrah pada \'Ain Fi\'il karena berasal dari Fi\'il Mitsal Wawu).', notes: 'Kata الْمَوْلِدُ yang kita gunakan untuk Maulid Nabi ﷺ berasal dari derivasi ini!' },
+            'shorof_2d': { ar: 'مَوْلُودٌ', tr: 'maulūdun', idn: 'Bayi yang dilahirkan (Isim Maf\'ul)', badge: 'Shorof • اسم المفعول', nahwu: 'Isim Maf\'ul.', shorof: 'Berwazan مَفْعُولٌ dari وَلَدَ.', notes: '-' },
+            'shorof_3a': { ar: 'حَاضَرَ', tr: 'ḥāḍara', idn: 'Berceramah / Berdiskusi', badge: 'Shorof • فاعل', nahwu: 'Fi\'il Madhi.', shorof: 'Fi\'il Tsulatsi Mazid bi Harfin berwazan فَاعَلَ (Akar: ح-ض-ر).', notes: '-' },
+            'shorof_3b': { ar: 'يُحَاضِرُ', tr: 'yuḥāḍiru', idn: 'Sedang berceramah', badge: 'Shorof • يفاعل', nahwu: 'Fi\'il Mudhari\'.', shorof: 'Wazan يُفَاعِلُ.', notes: '-' },
+            'shorof_3c': { ar: 'مُحَاضَرَةً', tr: 'muḥāḍaratan', idn: 'Ceramah / Kuliah umum', badge: 'Shorof • المصدر (مفاعلة)', nahwu: 'Masdar.', shorof: 'Berwazan مُفَاعَلَةً.', notes: 'Sering digunakan dalam frasa الْمُحَاضَرَةُ الدِّينِيَّةُ (Ceramah agama).' },
+            'shorof_3d': { ar: 'مُحَاضِرٌ', tr: 'muḥāḍirun', idn: 'Penceramah / Narasumber', badge: 'Shorof • اسم الفاعل', nahwu: 'Isim Fa\'il.', shorof: 'Berwazan مُفَاعِلٌ.', notes: '-' },
+            'shorof_4a': { ar: 'كَانَ', tr: 'kāna', idn: 'Adalah (Fi\'il Madhi)', badge: 'Shorof • الأجوف الواوي', nahwu: 'Fi\'il Madhi Naqish.', shorof: 'Asalnya كَوَنَ, huruf Wawu berharakat dan sebelumnya Fathah maka diubah menjadi Alif menjadi كَانَ.', notes: 'Kaidah I\'lal dalam Ilmu Shorof.' },
+            'shorof_4b': { ar: 'يَكُونُ', tr: 'yakūnu', idn: 'Sedang/Akan menjadi', badge: 'Shorof • المضارع الناقص', nahwu: 'Fi\'il Mudhari\' Naqish (juga beramal seperti Madhi-nya!).', shorof: 'Asalnya يَكْوُنُ, harakat Dhammah pada Wawu dipindah ke huruf Kaf (I\'lal bin Naql).', notes: '-' },
+            'shorof_4c': { ar: 'كَوْنًا', tr: 'kaunan', idn: 'Keberadaan (Masdar)', badge: 'Shorof • المصدر', nahwu: 'Masdar.', shorof: 'Terlihat huruf asli Wawu-nya (ك - و - ن) pada bentuk Masdar.', notes: '-' },
+            'shorof_4d': { ar: 'كَائِنٌ', tr: 'kā’inun', idn: 'Makhluk / Yang ada (Isim Fa\'il)', badge: 'Shorof • اسم الفاعل', nahwu: 'Isim Fa\'il.', shorof: 'Berwazan فَاعِلٌ, huruf Wawu setelah Alif Fazidah diubah menjadi Hamzah (كَائِنٌ).', notes: '-' }
+        };
+
+        function showWordPopup(key) {
+            const data = wordAnalysisDB[key];
+            if (!data) return;
+            playClickSound("C6", "16n");
+            document.getElementById('popupBadge').textContent = data.badge;
+            document.getElementById('popupArabicWord').textContent = data.ar;
+            document.getElementById('popupTranslit').textContent = data.tr;
+            document.getElementById('popupMeaning').textContent = `"${data.idn}"`;
+            document.getElementById('popupNahwu').textContent = data.nahwu;
+            document.getElementById('popupShorof').textContent = data.shorof;
+            document.getElementById('popupNotes').textContent = data.notes;
+            const modal = document.getElementById('wordModalOverlay');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeWordPopup(e) {
+            playClickSound("G4", "32n");
+            const modal = document.getElementById('wordModalOverlay');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function openModuleInfoModal() {
+            playClickSound("E5", "32n");
+            const modal = document.getElementById('moduleInfoModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeModuleInfoModal() {
+            const modal = document.getElementById('moduleInfoModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // --- 4. INTERACTIVE QUIZ ENGINE (SLIDE 7) ---
+        const quizQuestions = [
+            {
+                category: "Kaidah Nahwu • Kaana wa Akhawatuha",
+                question: "Lengkapilah kalimat berikut dengan Khabar Kaana (خَبَرُ كَانَ) yang tepat sesuai kaidah تَرْفَعُ الِاسْمَ وَتَنْصِبُ الْخَبَرَ:",
+                arabicPrompt: "كَانَ الْحَفْلُ بِمَوْلِدِ الرَّسُولِ ﷺ .......... فِي الْقَاعَةِ",
+                options: [
+                    { text: "مُنَظَّمًا (Munaẓẓaman)", correct: true },
+                    { text: "مُنَظَّمٌ (Munaẓẓamun)", correct: false },
+                    { text: "مُنَظَّمٍ (Munaẓẓamin)", correct: false },
+                    { text: "مُنَظَّمَةٌ (Munaẓẓamatun)", correct: false }
+                ],
+                explanation: "Benar! الْحَفْلُ adalah Isim Kaana (Marfu' dengan Dhammah), sehingga Khabar Kaana wajib Manshub dengan Fathah dan Mudzakkar yaitu مُنَظَّمًا."
+            },
+            {
+                category: "Penguasaan Kosakata • Pos 3 Kegiatan",
+                question: "Saat acara peringatan Maulid Nabi ﷺ, penceramah menyampaikan tausiyah agama. Apakah bahasa Arab dari 'Ceramah Agama'?",
+                arabicPrompt: "أَلْقَى الدَّاعِي .................... أَمَامَ الْحَاضِرِينَ",
+                options: [
+                    { text: "الْمُحَاضَرَةَ الدِّينِيَّةَ", correct: true },
+                    { text: "الْكَلِمَةَ التَّرْحِيبِيَّةَ", correct: false },
+                    { text: "أَوْلِيَاءَ الطُّلَّابِ", correct: false },
+                    { text: "الْقَاعَةَ الْكَبِيرَةَ", correct: false }
+                ],
+                explanation: "Tepat sekali! الْمُحَاضَرَةُ الدِّينِيَّةُ berarti Ceramah Agama, sedangkan الْكَلِمَةُ التَّرْحِيبِيَّةُ berarti Kata Sambutan."
+            },
+            {
+                category: "Kaidah Nahwu • Jamak Mudzakkar Salim",
+                question: "Pilihlah bentuk Khabar أَصْبَحَ yang tepat untuk melengkapi kalimat Jamak Mudzakkar Salim berikut:",
+                arabicPrompt: "أَصْبَحَ الْحَاضِرُونَ .................... بِذِكْرَى الْمَوْلِدِ",
+                options: [
+                    { text: "مَسْرُورِينَ (Masrūrīna)", correct: true },
+                    { text: "مَسْرُورُونَ (Masrūrūna)", correct: false },
+                    { text: "مَسْرُورٌ (Masrūrun)", correct: false },
+                    { text: "مَسْرُورَاتٍ (Masrūrātin)", correct: false }
+                ],
+                explanation: "Mumtaz! Karena الْحَاضِرُونَ adalah Jamak Mudzakkar Salim, maka Khabar أَصْبَحَ berstatus Manshub dengan tanda huruf Ya' (مَسْرُورِينَ)."
+            },
+            {
+                category: "Analisis Ilmu Shorof • Morfologi Kata",
+                question: "Kata الْمَوْلِدُ pada tema الْحَفْلُ بِمَوْلِدِ الرَّسُولِ ﷺ berasal dari fi'il وَلَدَ - يَلِدُ. Apakah wazan dan sighat kata مَوْلِدٌ dalam Ilmu Shorof?",
+                arabicPrompt: "وَلَدَ — يَلِدُ — مَوْلِدًا",
+                options: [
+                    { text: "Isim Zaman/Makan & Masdar Mimi berwazan مَفْعِلٌ", correct: true },
+                    { text: "Isim Fa'il berwazan فَاعِلٌ", correct: false },
+                    { text: "Isim Maf'ul berwazan مَفْعُولٌ", correct: false },
+                    { text: "Fi'il Amar berwazan إِفْعِلْ", correct: false }
+                ],
+                explanation: "Sangat tepat! مَوْلِدٌ berwazan مَفْعِلٌ (dengan kasrah pada 'ain fi'il karena berasal dari Fi'il Mitsal Wawu وَلَدَ) yang bermakna waktu kelahiran."
+            },
+            {
+                category: "Kaidah Nahwu • Kesesuaian Muannats",
+                question: "Pilihlah Isim كَانَتْ yang tepat dan berharakat benar untuk kalimat berikut:",
+                arabicPrompt: "كَانَتْ .................... النَّبَوِيَّةُ عَظِيمَةً وَمُؤَثِّرَةً",
+                options: [
+                    { text: "السِّيرَةُ (As-Sīratu)", correct: true },
+                    { text: "السِّيرَةَ (As-Sīrata)", correct: false },
+                    { text: "السِّيرَةِ (As-Sīrati)", correct: false },
+                    { text: "الْحَفْلُ (Al-Ḥaflu)", correct: false }
+                ],
+                explanation: "Ahsanta! Isim كَانَتْ wajib berstatus Marfu' (berharakat Dhammah) dan berjenis Muannats yaitu السِّيرَةُ."
+            }
+        ];
+
+        let currentQuizIdx = 0;
+        let quizScore = 0;
+        let answeredMap = {};
+
+        function renderQuiz() {
+            const q = quizQuestions[currentQuizIdx];
+            document.getElementById('quizNumberLabel').textContent = `SOAL ${currentQuizIdx + 1} DARI ${quizQuestions.length} • LKPD & SUMATIF`;
+            document.getElementById('quizCategoryLabel').textContent = q.category;
+            document.getElementById('quizQuestionText').textContent = q.question;
+            document.getElementById('quizArabicPrompt').textContent = q.arabicPrompt;
+
+            const optionsGrid = document.getElementById('quizOptionsGrid');
+            const alreadyAnswered = answeredMap[currentQuizIdx] !== undefined;
+
+            optionsGrid.innerHTML = q.options.map((opt, idx) => {
+                let btnStyle = "bg-[#ece0c8]/85 hover:bg-[#ece0c8] text-[#26170c] border-[#3b2313]/30";
+                if (alreadyAnswered) {
+                    if (opt.correct) {
+                        btnStyle = "bg-[#175638] text-[#ece0c8] border-[#175638]";
+                    } else if (answeredMap[currentQuizIdx] === idx) {
+                        btnStyle = "bg-[#7a2017] text-[#ece0c8] border-[#7a2017]";
+                    }
+                }
+                return `
+                    <button onclick="selectQuizOption(${idx})" ${alreadyAnswered ? 'disabled' : ''} class="p-3 rounded-xl border text-left font-semibold text-sm transition flex items-center justify-between ${btnStyle}">
+                        <span class="font-arabic text-lg">${opt.text}</span>
+                        <span class="text-xs opacity-75">${String.fromCharCode(65 + idx)}</span>
+                    </button>
+                `;
+            }).join('');
+
+            const fb = document.getElementById('quizFeedbackBox');
+            if (alreadyAnswered) {
+                const chosenIdx = answeredMap[currentQuizIdx];
+                const isCorrect = q.options[chosenIdx].correct;
+                fb.classList.remove('hidden');
+                fb.className = `mt-3 p-3 rounded-lg text-xs font-medium border ${isCorrect ? 'bg-[#175638]/15 border-[#175638] text-[#175638]' : 'bg-[#7a2017]/15 border-[#7a2017] text-[#7a2017]'}`;
+                fb.innerHTML = `<b>${isCorrect ? '✓ Jawaban Tepat!' : '✕ Kurang Tepat:'}</b> ${q.explanation}`;
+            } else {
+                fb.classList.add('hidden');
+            }
+
+            // Render Step Dots
+            const dotsEl = document.getElementById('quizStepDots');
+            dotsEl.innerHTML = quizQuestions.map((_, i) => {
+                let color = "bg-[#ece0c8] text-[#26170c]";
+                if (answeredMap[i] !== undefined) {
+                    color = quizQuestions[i].options[answeredMap[i]].correct ? "bg-[#175638] text-white" : "bg-[#7a2017] text-white";
+                }
+                const ring = i === currentQuizIdx ? "ring-2 ring-[#26170c]" : "";
+                return `<button onclick="goToQuizQuestion(${i})" class="py-1.5 rounded-lg text-xs font-bold ${color} ${ring}">${i + 1}</button>`;
+            }).join('');
+        }
+
+        function selectQuizOption(idx) {
+            if (answeredMap[currentQuizIdx] !== undefined) return;
+            answeredMap[currentQuizIdx] = idx;
+            const isCorrect = quizQuestions[currentQuizIdx].options[idx].correct;
+            if (isCorrect) {
+                quizScore += 100;
+                playClickSound("G5", "8n");
+            } else {
+                playClickSound("C4", "8n");
+            }
+            document.getElementById('quizScoreBadge').textContent = `Skor Kuis: ${quizScore} / 500`;
+            renderQuiz();
+        }
+
+        function nextQuizQuestion() {
+            playClickSound("E5", "32n");
+            currentQuizIdx = (currentQuizIdx + 1) % quizQuestions.length;
+            renderQuiz();
+        }
+
+        function prevQuizQuestion() {
+            playClickSound("D5", "32n");
+            currentQuizIdx = (currentQuizIdx - 1 + quizQuestions.length) % quizQuestions.length;
+            renderQuiz();
+        }
+
+        function goToQuizQuestion(i) {
+            playClickSound("E5", "32n");
+            currentQuizIdx = i;
+            renderQuiz();
+        }
+
+        function resetQuiz() {
+            playClickSound("C5", "16n");
+            currentQuizIdx = 0;
+            quizScore = 0;
+            answeredMap = {};
+            document.getElementById('quizScoreBadge').textContent = `Skor Kuis: 0 / 500`;
+            renderQuiz();
+        }
+
+        // --- 5. SLIDE NAVIGATION & APPLE MOTION CONTROLLER ---
+        let currentSlide = 0;
+        const totalSlides = 8;
+
+        function updateSlides() {
+            const slides = document.querySelectorAll('.slide-view');
+            slides.forEach((sl, idx) => {
+                sl.classList.remove('active', 'prev-slide');
+                if (idx === currentSlide) {
+                    sl.classList.add('active');
+                } else if (idx < currentSlide) {
+                    sl.classList.add('prev-slide');
+                }
+            });
+
+            document.getElementById('slideCounterText').textContent = `${currentSlide + 1} / ${totalSlides}`;
+
+            // Render Dock Dots
+            const dotsContainer = document.getElementById('slideDotsContainer');
+            dotsContainer.innerHTML = Array.from({ length: totalSlides }).map((_, i) => `
+                <button onclick="goToSlide(${i})" class="h-2 rounded-full transition-all duration-300 ${i === currentSlide ? 'w-6 bg-[#d9c39e]' : 'w-2 bg-[#ece0c8]/30 hover:bg-[#ece0c8]/60'}" title="Slide ${i + 1}"></button>
+            `).join('');
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                playClickSound("F5", "32n");
+                updateSlides();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                playClickSound("D5", "32n");
+                updateSlides();
+            }
+        }
+
+        function goToSlide(idx) {
+            currentSlide = idx;
+            playClickSound("E5", "32n");
+            updateSlides();
+        }
+
+        // Keyboard Arrow Navigation
+        window.addEventListener('keydown', (e) => {
+            if (e.target.tagName === 'INPUT') return;
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+            if (e.key === 'Escape') {
+                closeWordPopup();
+                closeModuleInfoModal();
+            }
+        });
+
+        // --- 6. LESSON TIMER (30 MINUTES) & CHECKLIST HELPERS ---
+        let timerSeconds = 30 * 60;
+        let timerInterval = null;
+
+        function toggleLessonTimer() {
+            playClickSound("C5", "32n");
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+                document.getElementById('timerDot').classList.remove('animate-ping');
+            } else {
+                document.getElementById('timerDot').classList.add('animate-ping');
+                timerInterval = setInterval(() => {
+                    if (timerSeconds > 0) {
+                        timerSeconds--;
+                        const m = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
+                        const s = String(timerSeconds % 60).padStart(2, '0');
+                        document.getElementById('timerDisplay').textContent = `${m}:${s}`;
+                    } else {
+                        clearInterval(timerInterval);
+                    }
+                }, 1000);
+            }
+        }
+
+        function updatePrepProgress() {
+            playClickSound("G5", "32n");
+            const checks = document.querySelectorAll('#prepChecklist input[type="checkbox"]');
+            let done = 0;
+            checks.forEach(c => { if (c.checked) done++; });
+            document.getElementById('prepCounter').textContent = `${done}/5 Selesai`;
+        }
+
+        function saveStudentReflection() {
+            playClickSound("A5", "16n");
+            const msg = document.getElementById('reflectionSavedMsg');
+            msg.classList.remove('hidden');
+            setTimeout(() => msg.classList.add('hidden'), 4000);
+        }
+
+        // Initialize on Window Load
+        window.onload = function() {
+            renderVocabCards('all');
+            renderQuiz();
+            updateSlides();
+        };
+    </script>
+</body>
+</html>
