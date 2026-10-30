@@ -287,6 +287,15 @@
             <button onclick="openModuleInfoModal()" class="px-3 py-1 rounded-full bg-[#7a2017] text-[#ece0c8] hover:bg-[#5a160f] transition font-medium shadow-sm">
                 Info Modul
             </button>
+            <button onclick="toggleFullScreen()" id="fullscreenBtn" class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#26170c] text-[#ece0c8] hover:bg-[#3b2313] transition font-medium shadow-sm" title="Layar Penuh (Tekan F)">
+                <svg id="fsIconExpand" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/>
+                </svg>
+                <svg id="fsIconCompress" class="w-3.5 h-3.5 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25"/>
+                </svg>
+                <span id="fsBtnText" class="hidden sm:inline">Layar Penuh</span>
+            </button>
         </div>
     </header>
 
@@ -365,8 +374,8 @@
                     <div class="manuscript-card p-3.5 rounded-xl">
                         <div class="text-[11px] uppercase tracking-wider font-bold text-[#7a2017]">Penyusun Modul & Guru</div>
                         <div class="font-bold text-sm md:text-base text-[#26170c] mt-0.5">Abdilah Adi Harisman</div>
-                        <div class="text-xs text-[#4e341e]">NIM: 21120201 • PAI Fakultas Tarbiyah</div>
-                        <div class="text-xs font-semibold text-[#26170c]">Universitas Islam KH Ruhiat Cipasung</div>
+                        <div class="text-xs text-[#4e341e]">NIM: 21120201 • PBA (Pendidikan Bahasa Arab)</div>
+                        <div class="text-xs font-semibold text-[#26170c]">Fakultas Tarbiyah • UIKH Ruhiat Cipasung</div>
                     </div>
                     <div class="manuscript-card p-3.5 rounded-xl">
                         <div class="text-[11px] uppercase tracking-wider font-bold text-[#7a2017]">Satuan Pendidikan</div>
@@ -1000,7 +1009,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs mt-3">
                 <div class="p-3 rounded-lg bg-[#ece0c8]/80">
                     <div class="font-bold text-[#7a2017]">Identitas Penyusun</div>
-                    <p class="mt-1"><b>Nama:</b> Abdilah Adi Harisman (NIM. 21120201)<br><b>Prodi:</b> Pendidikan Agama Islam - Fak. Tarbiyah<br><b>Kampus:</b> Universitas Islam KH Ruhiat Cipasung<br><b>Tempat Praktik:</b> MTs Al-Hidayah Bojongnangka</p>
+                    <p class="mt-1"><b>Nama:</b> Abdilah Adi Harisman (NIM. 21120201)<br><b>Prodi:</b> PBA (Pendidikan Bahasa Arab) - Fak. Tarbiyah<br><b>Kampus:</b> Universitas Islam KH Ruhiat Cipasung<br><b>Tempat Praktik:</b> MTs Al-Hidayah Bojongnangka</p>
                 </div>
                 <div class="p-3 rounded-lg bg-[#ece0c8]/80">
                     <div class="font-bold text-[#7a2017]">Diferensiasi Pembelajaran</div>
@@ -1547,11 +1556,46 @@
             if (e.target.tagName === 'INPUT') return;
             if (e.key === 'ArrowRight') nextSlide();
             if (e.key === 'ArrowLeft') prevSlide();
+            if (e.key === 'f' || e.key === 'F') toggleFullScreen();
             if (e.key === 'Escape') {
                 closeWordPopup();
                 closeModuleInfoModal();
             }
         });
+
+        // --- FULLSCREEN CONTROLLER ---
+        function toggleFullScreen() {
+            playClickSound("E5", "32n");
+            const docEl = document.documentElement;
+            if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+                if (docEl.requestFullscreen) {
+                    docEl.requestFullscreen().catch(() => {});
+                } else if (docEl.webkitRequestFullscreen) {
+                    docEl.webkitRequestFullscreen();
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen().catch(() => {});
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                }
+            }
+        }
+
+        function updateFullscreenUI() {
+            const isFs = !!(document.fullscreenElement || document.webkitFullscreenElement);
+            const expandIcon = document.getElementById('fsIconExpand');
+            const compressIcon = document.getElementById('fsIconCompress');
+            const fsText = document.getElementById('fsBtnText');
+            if (expandIcon && compressIcon && fsText) {
+                expandIcon.classList.toggle('hidden', isFs);
+                compressIcon.classList.toggle('hidden', !isFs);
+                fsText.textContent = isFs ? 'Keluar Penuh' : 'Layar Penuh';
+            }
+        }
+
+        document.addEventListener('fullscreenchange', updateFullscreenUI);
+        document.addEventListener('webkitfullscreenchange', updateFullscreenUI);
 
         // --- 6. LESSON TIMER (30 MINUTES) & CHECKLIST HELPERS ---
         let timerSeconds = 30 * 60;
